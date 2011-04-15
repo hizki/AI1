@@ -1,4 +1,3 @@
-
 class ProblemState:
     
     def getSuccessors(self):
