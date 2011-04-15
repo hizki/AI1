@@ -1,0 +1,29 @@
+from problem_agent import ProblemAgent
+from search.best_first import BestFirstGraphSearch
+import rooms
+import heuristics
+import time
+from search.beam_search import BeamSearch
+from search.dijkstra import Dijkstra
+
+class SolveAgent(ProblemAgent):
+    def solve(self, problem_state, time_limit):
+        return BestFirstGraphSearch().find(problem_state, heuristics.PowerHeuristic())
+
+problem = rooms.gaintRoomWithWall()
+print problem
+
+agent = SolveAgent()
+start = time.clock()
+solution = agent.solve(problem, 17)
+run_time = time.clock() - start
+print 'Solution:', solution
+print 'Solution length:', len(solution)
+print 'Running time:', run_time
+
+'''
+print 'steps: '
+for step in solution:
+    problem.nextState(step)
+    print problem
+'''
