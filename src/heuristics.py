@@ -6,18 +6,21 @@ class ExampleHeuristic(Heuristic):
         return x
 
 class PowerHeuristic(Heuristic):
+    def distance(self, a, b):
+        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
     def evaluate(self, state):
         dists = []
-        sourceX, sourceY = state.robots[0]
-        for x, y in state.dirt_locations:
-            dists.append(abs(sourceX - x) + abs(sourceY - y))
+        
+        # table of distancese betwwenn all robots and all dirts
+        for dirt_loc in state.dirt_locations:
+            for robot in range(len(state.robots)):
+                dists.append((self.distance(state.robots[robot], dirt_loc), dirt_loc, robot))
         dists.sort()
-
+             
         rank = 0
-        power = len(dists)
-        for dist in dists:
+        power = len(dists)             
+        for dist, dirt_loc, robot in dists:
             rank += pow(dist, power)
             power -= 1
-        print rank.__str__() + " , " + dists.__str__();
         return rank
-            

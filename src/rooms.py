@@ -64,7 +64,30 @@ def gaintRoomWithWall():
     dirt_locations.add((4,0))
     
     obstacle_locations = set()
-    createWall((0,2),(3,2),obstacle_locations)
+    createWall((3,2),(0,2),obstacle_locations)
     obstacle_locations.add((2,4))
     
     return MultiRobotState(5, 5, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+def twoRobots():
+    robots = tuple([(0,3),(2,0)])
+
+    dirt_locations = set()
+    dirt_locations.add((0,0))
+    dirt_locations.add((8,0))
+    
+    obstacle_locations = set()
+    
+    return MultiRobotState(9, 4, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+def twoRobotsInOpCorners():
+    robots = tuple([(0,3),(3,0)])
+
+    dirt_locations = set()
+    dirt_locations.add((4,4))
+    dirt_locations.add((0,0))
+    
+    obstacle_locations = set()
+    
+    return MultiRobotState(5, 5, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+ 
