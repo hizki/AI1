@@ -8,10 +8,19 @@ from search.beam_search import BeamSearch
 from search.dijkstra import Dijkstra
 
 class SolveAgent(ProblemAgent):
-    def solve(self, problem_state, time_limit):
-        return BestFirstGraphSearch().find(problem_state, ivan_heuristics.PowerHeuristic())
 
-problem = rooms.randomRoom(20, 20, 10, 30, 20)
+    def __init__(self):
+        self.heuristic = ivan_heuristics.PowerHeuristic()
+        self.algo = BestFirstGraphSearch()
+
+    def getHeuristic(self):
+        return self.heuristic
+
+    def solve(self, problem_state, time_limit):
+        return algo.find(problem_state, self.heuristic)
+
+
+problem = rooms.twoRobotsInOpCorners()
 print problem
 
 agent = SolveAgent()
@@ -20,7 +29,7 @@ solution = agent.solve(problem, 17)
 run_time = time.clock() - start
 
 
-h = ivan_heuristics.PowerHeuristic()
+h = agent.getHeuristic()
 print " -------------------Solving "
 print 'steps: '
 for step in solution:
