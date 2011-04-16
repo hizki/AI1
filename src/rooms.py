@@ -43,6 +43,18 @@ def room1():
 
     return MultiRobotState(9, 6, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
 
+def roomLongWithObstaccle():
+    robots = tuple([(0,0),(0,6)])
+
+    dirt_locations = set()
+    dirt_locations.add((0,2))
+    dirt_locations.add((14,6))
+
+    obstacle_locations = set()
+    createWall((0,1), (12,1), obstacle_locations)
+
+    return MultiRobotState(15, 7, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
 def gaintRoom():
     robots = tuple([(0,0)])
 
@@ -130,6 +142,11 @@ def split():
     obstacle_locations = set()
 
     return MultiRobotState(10, 10, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+
+
+
+
 '''
 createWall :
 exampleProblem :

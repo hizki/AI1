@@ -27,7 +27,7 @@ def printAllRooms():
             print rooms_f()
             print
         except:
-            pass
+            print 'err'
 
 printAllRooms()
 

@@ -9,9 +9,9 @@ from search.dijkstra import Dijkstra
 
 class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
-        return BestFirstGraphSearch().find(problem_state, ivan_heuristics.PowerHeuristic())
+        return BestFirstGraphSearch().find(problem_state, heuristics.PowerHeuristic())
 
-problem = rooms.split()
+problem = rooms.roomLongWithObstaccle()
 print problem
 
 agent = SolveAgent()
@@ -20,7 +20,7 @@ solution = agent.solve(problem, 17)
 run_time = time.clock() - start
 
 
-h = ivan_heuristics.PowerHeuristic()
+h = heuristics.PowerHeuristic()
 print " -------------------Solving "
 print 'steps: '
 for step in solution:
