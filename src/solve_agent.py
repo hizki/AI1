@@ -11,7 +11,9 @@ class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
         return BestFirstGraphSearch().find(problem_state, heuristics.PowerHeuristic())
 
+
 problem = rooms.roomLongWithObstaccle()
+
 print problem
 
 agent = SolveAgent()
