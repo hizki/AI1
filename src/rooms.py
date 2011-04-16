@@ -101,4 +101,30 @@ def ivansRevenge():
     obstacle_locations = set()
     
     return MultiRobotState(10, 3, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+'''
+XXXXXXXXXXXX
+X*        *X
+X          X
+X          X
+X          X
+X    02    X
+X    31    X
+X          X
+X          X
+X          X
+X*        *X
+XXXXXXXXXXXX
+'''
+def split():
+    robots = tuple([(4,4),(5,5),(5,4),(4,5)])
+
+    dirt_locations = set()
+    dirt_locations.add((0,0))
+    dirt_locations.add((9,9))
+    dirt_locations.add((0,9))
+    dirt_locations.add((9,0))
     
+    obstacle_locations = set()
+    
+    return MultiRobotState(10, 10, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
