@@ -13,7 +13,7 @@ def createWall(start, end, obstacle_locations):
             obstacle_locations.add((x, y1))
         return
     
-    raise "Not vaild wall"
+    raise 'Not valid wall'
 
 def exampleProblem():
     # First Problem - Easy
@@ -90,4 +90,41 @@ def twoRobotsInOpCorners():
     obstacle_locations = set()
     
     return MultiRobotState(5, 5, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
- 
+
+def ivansRevenge():
+    robots = tuple([(9,0),(0,2)])
+
+    dirt_locations = set()
+    dirt_locations.add((9,2))
+    dirt_locations.add((0,0))
+    
+    obstacle_locations = set()
+    
+    return MultiRobotState(10, 3, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+'''
+XXXXXXXXXXXX
+X*        *X
+X          X
+X          X
+X          X
+X    02    X
+X    31    X
+X          X
+X          X
+X          X
+X*        *X
+XXXXXXXXXXXX
+'''
+def split():
+    robots = tuple([(4,4),(5,5),(5,4),(4,5)])
+
+    dirt_locations = set()
+    dirt_locations.add((0,0))
+    dirt_locations.add((9,9))
+    dirt_locations.add((0,9))
+    dirt_locations.add((9,0))
+    
+    obstacle_locations = set()
+    
+    return MultiRobotState(10, 10, robots, frozenset(dirt_locations), frozenset(obstacle_locations))

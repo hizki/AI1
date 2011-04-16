@@ -11,7 +11,7 @@ class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
         return BestFirstGraphSearch().find(problem_state, ivan_heuristics.PowerHeuristic())
 
-problem = rooms.twoRobotsInOpCorners()
+problem = rooms.split()
 print problem
 
 agent = SolveAgent()
