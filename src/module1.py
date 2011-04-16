@@ -9,10 +9,16 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 #!/usr/bin/env python
+
 import ivan_heuristics
 
 
 def testDistances():
+    h = ivan_heuristics.BackGoalsHeuristic()
+    list = h.distanceList((0,0),[(7,7),(5,2),(1,1)] )
+    # output :[(2, 2), (7, 1), (14, 0)]
+    print list
+
 
 
 
