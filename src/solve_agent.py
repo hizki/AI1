@@ -5,14 +5,21 @@ import heuristics
 import time
 from search.beam_search import BeamSearch
 from search.dijkstra import Dijkstra
-from search.astar import AStar
+from search.astar import AStar, IterativeDeepeningAStar
 
 class SolveAgent(ProblemAgent):
+    def __init__(self):
+        self.heuristic = heuristics.PowerHeuristic()
+        self.algo = BestFirstGraphSearch()
+
+    def getHeuristic(self):
+        return self.heuristic
+
     def solve(self, problem_state, time_limit):
-        return BestFirstGraphSearch().find(problem_state, heuristics.PowerHeuristic())
+        return self.algo.find(problem_state, self.heuristic)
 
-problem = rooms.roomLongWithObstaccle()
-
+problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)
+#problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)  very interesting room
 print problem
 
 agent = SolveAgent()

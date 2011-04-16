@@ -10,7 +10,7 @@ from search.dijkstra import Dijkstra
 class SolveAgent(ProblemAgent):
 
     def __init__(self):
-        self.heuristic = ivan_heuristics.PowerHeuristic()
+        self.heuristic = heuristics.PowerHeuristic()
         self.algo = BestFirstGraphSearch()
 
     def getHeuristic(self):
