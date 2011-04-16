@@ -27,9 +27,28 @@ class BackGoalsHeuristic(Heuristic):
         for (point,i) in zip(pointlist, range(len(pointlist))):
             element = (self.distance(origin,point),i)
             list.append((element))
-            print element
         list.sort()
         return list
+
+    def evaluate(self, state):
+        distances_table = []
+
+        g_table = [] # for each g there is list of robotos sorted by closeness to g
+        r_table = [] # for each robot : list of g, by less far from robot
+
+        g_table = [self.distanceList(g,state.robots) for g in state.dirt_locations]
+        g_table.sort(cmp=lambda x,y: x[1][1]>y[1][1] )
+
+
+
+
+
+
+
+
+
+
+
 
 
 
