@@ -2,13 +2,14 @@ from problem_agent import ProblemAgent
 from search.best_first import BestFirstGraphSearch
 import rooms
 import heuristics
+import ivan_heuristics
 import time
 from search.beam_search import BeamSearch
 from search.dijkstra import Dijkstra
 
 class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
-        return BestFirstGraphSearch().find(problem_state, heuristics.PowerHeuristic())
+        return BestFirstGraphSearch().find(problem_state, ivan_heuristics.PowerHeuristic())
 
 problem = rooms.twoRobotsInOpCorners()
 print problem
@@ -19,7 +20,7 @@ solution = agent.solve(problem, 17)
 run_time = time.clock() - start
 
 
-h = heuristics.PowerHeuristic()
+h = ivan_heuristics.PowerHeuristic()
 print " -------------------Solving "
 print 'steps: '
 for step in solution:
@@ -27,7 +28,7 @@ for step in solution:
     print "eval=", h.evaluate(problem)
     print step
     print problem
-    
+
 print 'Solution:', solution
 print 'Solution length:', len(solution)
 print 'Running time:', run_time
