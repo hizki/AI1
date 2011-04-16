@@ -165,6 +165,33 @@ def split():
     obstacle_locations = set()
 
     return MultiRobotState(10, 10, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+def zigzag():
+    robots = tuple([(0,3),(19,3)])
+
+    dirt_locations = set()
+    dirt_locations.add((6,3))
+
+    obstacle_locations = set()
+    createWall((1,1), (1,3), obstacle_locations)
+    createWall((3,0), (3,2), obstacle_locations)
+    createWall((5,1), (5,3), obstacle_locations)
+
+    return MultiRobotState(20, 4, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+def zigzagUpright():
+    robots = tuple([(3,0),(3,19)])
+
+    dirt_locations = set()
+    dirt_locations.add((3,6))
+
+    obstacle_locations = set()
+    createWall((1,1), (3,1), obstacle_locations)
+    createWall((0,3), (2,3), obstacle_locations)
+    createWall((1,5), (3,5), obstacle_locations)
+
+    return MultiRobotState(4, 20, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+    
 '''
 createWall :
 exampleProblem :
