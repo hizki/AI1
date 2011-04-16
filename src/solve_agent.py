@@ -9,9 +9,10 @@ from search.astar import AStar
 
 class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
-        return AStar().find(problem_state, heuristics.PowerHeuristic())
+        return BestFirstGraphSearch().find(problem_state, heuristics.PowerHeuristic())
 
-problem = rooms.randomRoom(9, 9, 6, 10, 10, 4)
+problem = rooms.roomLongWithObstaccle()
+
 print problem
 
 agent = SolveAgent()
