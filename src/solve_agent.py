@@ -10,7 +10,7 @@ class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
         return BestFirstGraphSearch().find(problem_state, heuristics.PowerHeuristic())
 
-problem = rooms.split()
+problem = rooms.randomRoom(20, 20, 10, 30, 20)
 print problem
 
 agent = SolveAgent()

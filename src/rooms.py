@@ -1,4 +1,5 @@
 from multi_robot_problem import MultiRobotState
+import random
 
 def createWall(start, end, obstacle_locations):
     x1, y1 = start
@@ -15,6 +16,35 @@ def createWall(start, end, obstacle_locations):
     
     raise 'Not valid wall'
 
+def randomRoom(x, y, r, d, o):
+    objects = []
+    robots = []
+    obstacle_locations = set()
+    dirt_locations = set()
+
+    for i in range(r): #@UnusedVariable
+        a = random.randint(0,x-1)
+        b = random.randint(0,y-1)
+        if (a,b) not in objects:
+            robots.append((a,b))
+            objects.append((a,b))
+        
+    for i in range(d): #@UnusedVariable
+        a = random.randint(0,x-1)
+        b = random.randint(0,y-1)
+        if (a,b) not in objects:
+            dirt_locations.add((a,b))
+            objects.append((a,b))
+        
+    for i in range(o): #@UnusedVariable
+        a = random.randint(0,x-1)
+        b = random.randint(0,y-1)
+        if (a,b) not in objects:
+            obstacle_locations.add((a,b))
+            objects.append((a,b))
+
+    return MultiRobotState(x, y, tuple(robots), frozenset(dirt_locations), frozenset(obstacle_locations))
+    
 def exampleProblem():
     # First Problem - Easy
     robots = tuple([(2, 2)])
