@@ -18,7 +18,12 @@ def createWall(start, end, obstacle_locations):
 
     raise 'Not valid wall'
 
-def randomRoom(x, y, r, d, o):
+def randomRoom(x, y, r, d, o, seed):
+    if r+d+o > x*y:
+        print 'You ask for too much... This is what you get:'
+        return exampleProblem()
+        
+    random.seed(seed)
     objects = []
     robots = []
     obstacle_locations = set()
