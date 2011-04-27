@@ -3,7 +3,9 @@ from multi_robot_problem import MultiRobotState
 import random
 
 def roomFromString(str):
-
+    '''
+    Creates room from string in representation format
+    '''
     lines =[]
     line = []
     for sym in str:
@@ -46,14 +48,6 @@ def roomFromString(str):
     return MultiRobotState(w, h, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
 
 
-
-
-
-
-
-
-
-
 def createWall(start, end, obstacle_locations):
     x1, y1 = start
     x2, y2 = end
@@ -76,7 +70,7 @@ def randomRoom(x, y, r, d, o, seed):
 
     random.seed(seed)
     objects = []
-    robots = []
+    robots  = []
     obstacle_locations = set()
     dirt_locations = set()
 
@@ -271,6 +265,20 @@ X  X        X
 XXXXXXXXXXXXX
 ''')
 
+
+def complexRoom2():
+    return roomFromString('''
+XXXXXXXXXXXXX
+X           X
+X   XXXXX   X
+X 0   X *   X
+XXXXXXXXXXXXX
+X           X
+X  XXXXXX   X
+X  X1   X   X
+X* X        X
+XXXXXXXXXXXXX
+''')
 
 # regular rooms
 '''

@@ -20,7 +20,7 @@ class SolveAgent(ProblemAgent):
 
 #problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)
 #problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)  very interesting room
-problem = rooms.complexRoom()
+problem = rooms.complexRoom2()
 print "Start"
 print problem
 
