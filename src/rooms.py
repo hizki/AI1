@@ -2,6 +2,68 @@ import types
 from multi_robot_problem import MultiRobotState
 import random
 
+def roomFromString(str):
+    x = -2
+    y = -2
+    lines =[]
+    line = []
+    for sym in str:
+        if sym == '\n':
+            lines.append(line)
+            line = []
+        else:
+            line.append(sym)
+    lines.pop(0)
+    lines.pop(0)
+    lines.pop()
+
+    #print 'rrr',lines
+    for l in lines:
+        if l == []: continue
+        l.pop(0)
+        l.pop()
+    # now we have good old 2d array
+    # First Problem - Easy
+    robots = tuple()
+    dirt_locations = set()
+    obstacle_locations = set()
+
+    h = len(lines)
+    w = len(lines[0])
+
+    #print "h=",h
+    #print "w=",w
+
+    #print 'rrr',lines
+
+    for y in range( h ):
+        for x in range( w ):
+            sym = lines[y][x]
+
+            if sym == ' ':
+                continue
+
+            if sym == '*':
+                dirt_locations.add((x,y))
+                #print 'r at', (x,y)
+                continue
+            if sym == 'X':
+                obstacle_locations.add((x,y))
+                #print 'o at', (x,y)
+                continue
+            #else its robot
+            robots += tuple([(x,y)])
+
+    return MultiRobotState(h, w, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+
+
+
+
+
+
+
+
 
 def createWall(start, end, obstacle_locations):
     x1, y1 = start
@@ -22,7 +84,7 @@ def randomRoom(x, y, r, d, o, seed):
     if r+d+o > x*y:
         print 'You ask for too much... This is what you get:'
         return exampleProblem()
-        
+
     random.seed(seed)
     objects = []
     robots = []
@@ -35,14 +97,14 @@ def randomRoom(x, y, r, d, o, seed):
         if (a,b) not in objects:
             robots.append((a,b))
             objects.append((a,b))
-        
+
     for i in range(d): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
         if (a,b) not in objects:
             dirt_locations.add((a,b))
             objects.append((a,b))
-        
+
     for i in range(o): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
@@ -51,7 +113,7 @@ def randomRoom(x, y, r, d, o, seed):
             objects.append((a,b))
 
     return MultiRobotState(x, y, tuple(robots), frozenset(dirt_locations), frozenset(obstacle_locations))
-    
+
 def exampleProblem():
     # First Problem - Easy
     robots = tuple([(2, 2)])
@@ -203,6 +265,40 @@ def zigzagUpright():
     createWall((1,5), (3,5), obstacle_locations)
 
     return MultiRobotState(4, 20, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
+
+def complexRoom():
+    return roomFromString('''
+XXXXXXXXXXXXX
+X           X
+X        *  X
+X           X
+X  XXXXXX   X
+X  X   1X   X
+X  X    X   X
+X       X   X
+X  X        X
+XXXXXXXXXXXXX
+''')
+
+
+def testRoomFromString():
+    r = '''
+XXXXXXX
+X     X
+X * * X
+X  0  X
+X * * X
+X     X
+XXXXXXX
+'''
+    print roomFromString(r)
+
+print 'test'
+testRoomFromString()
+
+print complexRoom()
+
 
 '''
 createWall :
