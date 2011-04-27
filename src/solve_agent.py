@@ -18,8 +18,10 @@ class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
         return self.algo.find(problem_state, self.heuristic)
 
-problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)
+#problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)
 #problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)  very interesting room
+problem = rooms.complexRoom()
+print "Start"
 print problem
 
 agent = SolveAgent()

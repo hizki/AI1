@@ -3,8 +3,7 @@ from multi_robot_problem import MultiRobotState
 import random
 
 def roomFromString(str):
-    x = -2
-    y = -2
+
     lines =[]
     line = []
     for sym in str:
@@ -13,11 +12,10 @@ def roomFromString(str):
             line = []
         else:
             line.append(sym)
+    # clean up
     lines.pop(0)
     lines.pop(0)
     lines.pop()
-
-    #print 'rrr',lines
     for l in lines:
         if l == []: continue
         l.pop(0)
@@ -31,30 +29,21 @@ def roomFromString(str):
     h = len(lines)
     w = len(lines[0])
 
-    #print "h=",h
-    #print "w=",w
-
-    #print 'rrr',lines
-
-    for y in range( h ):
-        for x in range( w ):
+    for y in range(h):
+        for x in range(w):
             sym = lines[y][x]
-
             if sym == ' ':
                 continue
-
             if sym == '*':
                 dirt_locations.add((x,y))
-                #print 'r at', (x,y)
                 continue
             if sym == 'X':
                 obstacle_locations.add((x,y))
-                #print 'o at', (x,y)
                 continue
             #else its robot
             robots += tuple([(x,y)])
 
-    return MultiRobotState(h, w, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+    return MultiRobotState(w, h, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
 
 
 
@@ -266,40 +255,24 @@ def zigzagUpright():
 
     return MultiRobotState(4, 20, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
 
+# rooms by string: from http://asciipaint.com/
 
 def complexRoom():
     return roomFromString('''
 XXXXXXXXXXXXX
+X *       * X
 X           X
-X        *  X
 X           X
 X  XXXXXX   X
 X  X   1X   X
 X  X    X   X
-X       X   X
+X 2     X   X
 X  X        X
 XXXXXXXXXXXXX
 ''')
 
 
-def testRoomFromString():
-    r = '''
-XXXXXXX
-X     X
-X * * X
-X  0  X
-X * * X
-X     X
-XXXXXXX
-'''
-    print roomFromString(r)
-
-print 'test'
-testRoomFromString()
-
-print complexRoom()
-
-
+# regular rooms
 '''
 createWall :
 exampleProblem :
