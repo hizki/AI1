@@ -23,11 +23,14 @@ def printAllRooms():
 
     for rooms_f in rooms_functions:
         try:
-            print rooms_f.__name__,':'
-            print rooms_f()
+            room_name = rooms_f.__name__
+            room_repr =rooms_f()
+            print "'%s':'''" % room_name
+            print "%s'''," % room_repr
             print
         except:
-            print 'err'
+            pass
+            # print 'err'
 
 printAllRooms()
 
