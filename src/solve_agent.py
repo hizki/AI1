@@ -23,6 +23,8 @@ problem = rooms.randomRoom(8, 8, 3, 15, 10, 1)
 #roomGenerator = Tester(8, 10, 8, 10, 3, 10, 2, Tester.OBSTACLES_POCKETS, 6, 1, 5, 1, 5, 1)
 #problem = roomGenerator.generateProblemSpace(4)
 #problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)  very interesting room
+problem = rooms.complexRoom2()
+print "Start"
 print problem
 
 agent = SolveAgent()

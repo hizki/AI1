@@ -2,6 +2,51 @@ import types
 from multi_robot_problem import MultiRobotState
 import random
 
+def roomFromString(str):
+    '''
+    Creates room from string in representation format
+    '''
+    lines =[]
+    line = []
+    for sym in str:
+        if sym == '\n':
+            lines.append(line)
+            line = []
+        else:
+            line.append(sym)
+    # clean up
+    lines.pop(0)
+    lines.pop(0)
+    lines.pop()
+    for l in lines:
+        if l == []: continue
+        l.pop(0)
+        l.pop()
+    # now we have good old 2d array
+    # First Problem - Easy
+    robots = tuple()
+    dirt_locations = set()
+    obstacle_locations = set()
+
+    h = len(lines)
+    w = len(lines[0])
+
+    for y in range(h):
+        for x in range(w):
+            sym = lines[y][x]
+            if sym == ' ':
+                continue
+            if sym == '*':
+                dirt_locations.add((x,y))
+                continue
+            if sym == 'X':
+                obstacle_locations.add((x,y))
+                continue
+            #else its robot
+            robots += tuple([(x,y)])
+
+    return MultiRobotState(w, h, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
+
 
 def createWall(start, end, obstacle_locations):
     x1, y1 = start
@@ -22,10 +67,10 @@ def randomRoom(x, y, r, d, o, seed):
     if r+d+o > x*y:
         print 'You ask for too much... This is what you get:'
         return exampleProblem()
-        
+
     random.seed(seed)
     objects = []
-    robots = []
+    robots  = []
     obstacle_locations = set()
     dirt_locations = set()
 
@@ -60,7 +105,7 @@ def randomRoom(x, y, r, d, o, seed):
         objects.append((a,b))
 
     return MultiRobotState(x, y, tuple(robots), frozenset(dirt_locations), frozenset(obstacle_locations))
-    
+
 def exampleProblem():
     # First Problem - Easy
     robots = tuple([(2, 2)])
@@ -176,20 +221,6 @@ def ivansRevenge():
 
     return MultiRobotState(10, 3, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
 
-'''
-XXXXXXXXXXXX
-X*        *X
-X          X
-X          X
-X          X
-X    02    X
-X    31    X
-X          X
-X          X
-X          X
-X*        *X
-XXXXXXXXXXXX
-'''
 def split():
     robots = tuple([(4,4),(5,5),(5,4),(4,5)])
 
@@ -237,7 +268,39 @@ def borisRevenge():
     obstacle_locations = frozenset([(-4, 5), (7, 3), (9, 8), (7, 7), (0, 7), (-4, 2), (6, 2), (9, 4), (-4, 6), (7, 2), (-2, 1), (-3, 7), (-1, 7), (7, 6), (-4, 3), (6, 3), (-1, 1), (-4, 7), (1, 1), (9, 7), (9, 3), (-2, 7), (6, 0), (-3, 1), (7, 5), (9, 6), (0, 1), (-4, 4), (6, 1), (7, 4), (-4, 1), (1, 7), (9, 5)])
     problem = MultiRobotState(width, height, robots, dirt_locations, obstacle_locations)
     return problem
-    
+
+# rooms by string: from http://asciipaint.com/
+
+def complexRoom():
+    return roomFromString('''
+XXXXXXXXXXXXX
+X *       * X
+X           X
+X           X
+X  XXXXXX   X
+X  X   1X   X
+X  X    X   X
+X 2     X   X
+X  X        X
+XXXXXXXXXXXXX
+''')
+
+
+def complexRoom2():
+    return roomFromString('''
+XXXXXXXXXXXXX
+X           X
+X   XXXXX   X
+X 0   X *   X
+XXXXXXXXXXXXX
+X           X
+X  XXXXXX   X
+X  X1   X   X
+X* X        X
+XXXXXXXXXXXXX
+''')
+
+# regular rooms
 '''
 createWall :
 exampleProblem :
