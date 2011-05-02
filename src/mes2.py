@@ -56,7 +56,8 @@ def compare_measured_soleves(solve_impl_list, rooms, measurment_limit):
             counter[0] += 1
             print '%d, ' % counter[0], 
             
-            GraphSearch.time_limit =            
+            GraphSearch.time_limit = room_time_limit           
+            
             start_time = time.clock()
             results = solve_f(room, room_time_limit)
             run_time = time.clock() - start_time

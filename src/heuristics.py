@@ -81,6 +81,11 @@ class LinearAdmisibleHeuristic(Heuristic):
                 dists.append((self.distance(state.robots[robot], dirt_loc), dirt_loc, robot))
         dists.sort(reverse=True)
         
+        
+        print "Find Best ditrs for Robots backwise"
+        
+        
+        
         print "evaluating robots= ", state.robots 
         
         #matches 
