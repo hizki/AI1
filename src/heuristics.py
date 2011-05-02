@@ -64,7 +64,7 @@ class PowerHeuristic2(Heuristic):
         # divide the piles of dust between robots
         # (rounded up, i.e. 3 piles and 2 robots = 2 piles per robot)
         dirt_per_robot = float(len(state.dirt_locations)) / len(state.robots)
-        dirt_per_robot = math.ceil(dirt_per_robot)
+        dirt_per_robot = int(math.ceil(dirt_per_robot))
         
         # table of distances between all robots and all dirts.
         # sort in descending order.
@@ -76,12 +76,13 @@ class PowerHeuristic2(Heuristic):
         dists.sort(reverse=True)
         
         matches = []
+        done = [0]*len(state.robots)
         while len(dists) > 0:
             # a list of counter for all robots
-            done = [0]*len(state.robots)
             
             # worst_dirt - the dirt pile that is farthest from all the robots.
             worst_dirt = dists[0][1]
+#            print "worst_dirt = ", worst_dirt
             
             # x - the distances of all the robots from worst_dirt.
             x = []
@@ -94,8 +95,10 @@ class PowerHeuristic2(Heuristic):
             # it's closest robot.
             x.sort()
             matches.append(x[0])
+
+#            print "dists before piles filter:", dists
             
-            # remove all data of that dirt pile from the dists table.
+            # remove all references to that dirt pile from the dists table.
             for xi in x:
                 dists.pop(dists.index(xi))
             
@@ -104,11 +107,22 @@ class PowerHeuristic2(Heuristic):
             # if the 'done' counter reaches 'dirt_per_robot',
             # remove that robot from the 'dists' table.
             done[x[0][2]] += 1
-            if x[0][2] > dirt_per_robot:
+#            print "dists before robot filter:", dists
+
+            if done[x[0][2]] >= dirt_per_robot:
+#                print "filtering", x[0][2]
                 dists = [dist for dist in dists if not dist[2] == x[0][2]]
             
+#            print "dists after both filters:", dists
+#            print "done array: ", done
+#            print "dirt_per_robot = ", dirt_per_robot
+#            print "number of robots = ", len(state.robots)
+#            print "number of piles", len(state.dirt_locations)
+#            print "matches: ", matches
+#            print ""
+            
         rank = 0
-        power = len(matches)             
+        power = len(matches)           
         for dist, dirt_loc, robot in matches:
             rank += pow(dist, power)
             power -= 1
