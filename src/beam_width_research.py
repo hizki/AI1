@@ -71,8 +71,7 @@ class BeamReserch():
         return (self.x_name,x), (self.y_name,y)
                 
     
-    def runCompareAgents(self, agetns):
-        rumBeamWithWidth(self,beam_width,series_limit)
+
     
     def runSeries(self, agent, rooms, series_limit):
         '''
@@ -90,7 +89,7 @@ class BeamReserch():
                 solution = []
             run_time = time.clock() - start_time
             return (room_id, len(solution), run_time)
-        table = [ measure_room(room) for room in  rooms.items() ]
+        table = [ measure_room(room) for room in rooms.items() ]
         return table
 
 

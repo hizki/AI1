@@ -1,4 +1,5 @@
 from search.algorithm import Heuristic
+import obstacles
 
 class ExampleHeuristic(Heuristic):
     def evaluate(self, state):
@@ -62,3 +63,47 @@ class PowerHeuristic(Heuristic):
         robo_ranks.sort()
         rank = robo_ranks[0]
 '''
+
+
+class ObstacleHeuristic(PowerHeuristic):
+    
+    def __init__(self):
+        self.obstacles_locations = None
+        self.obstacele_rectangles = None
+        
+    
+    def distance(self, a, b):
+        '''
+        Assume a is a robot
+        '''
+        manhatten = abs(a[0] - b[0]) + abs(a[1] - b[1])
+        #
+        
+        #check if between point theris an obstacle
+        # no -> return PowerHeuristic.distance(self, a, b)
+        # yes:
+        # get trap rectangle
+        # my_rect =(a,b)
+        
+            
+    
+    
+    
+
+    def evaluate(self, state):
+        # save locations for analisys in distance method
+        # recalculate if changes
+        if self.obstacles_locations != state.obstacle_locations:
+            self.obstacles_locations = state.obstacle_locations
+            self.obstacele_rectangles = obstacles.get_obstaclesMap(state)
+
+        # use PowerHeuristic evaluate
+        PowerHeuristic.evaluate(self, state)
+        
+    
+    
+    
+    
+    
+    
+    

@@ -14,9 +14,13 @@ from search.astar import AStar, IterativeDeepeningAStar
 
 class MeasureAgent(ProblemAgent):
     
-    def __init__(self,algorithm, heuristic):
+    def __init__(self,algorithm, heuristic, name=None):
         self._heuristic = heuristic
         self._algorithm = algorithm
+        self._name = name
+        
+    @property
+    def name(self): return self._name
     
     @property
     def heuristic(self): return self._heuristic
