@@ -12,10 +12,13 @@
 # The IterativeDeepeningAStar variant allows you to search with A* using layers
 # of depth in the graph, with each search increasing the maximum depth.
 
-from algorithm import Heuristic, SearchAlgorithm
+from algorithm import SearchAlgorithm
 from graph import GraphSearch
+from search.utils import sys, infinity, PriorityQueue
 from utils import *
 import time
+
+from search.utils import sys, infinity, PriorityQueue
 
 class AStar (SearchAlgorithm):
     '''
