@@ -139,64 +139,142 @@ class PowerHeuristic2(Heuristic):
         rank = robo_ranks[0]
 '''
 
-
+def select(test, list):
+    """
+    Select the first element from a sequence that
+    satisfy the given test function
+    - compare The test function should have following
+    signature def test(item): and must return a boolean
+    - list The List from which element need to be selected
+    """
+    selected = None
+    for item in list:
+        if test(item) == True:
+            selected = item
+            break;
+    return selected
+  
+  
 class LinearAdmisibleHeuristic(Heuristic):
     
     def distance(self, a, b):
         return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
-    def evaluate(self, state):
-        if len(state.dirt_locations) == 0:
-            return 0
-        
-        # table of distances between all robots and all dirts
+    def build_distance_table(self,state):
+        ''' table of distances between all robots and all dirts 
+            sorted in in descendant order by distance 
+        @return : as [ ( distance, (dirt_x, dirt_y), robot_index),...] 
+        '''
         dists = []
         for dirt_loc in state.dirt_locations:
             for robot in range(len(state.robots)):
                 dists.append((self.distance(state.robots[robot], dirt_loc), dirt_loc, robot))
-        dists.sort(reverse=True)
+        dists.sort(reverse=True)    
+        return dists
+    
+    
+    def evaluate(self, state):
+        # break: no dust =>no thing to do
+        if len(state.dirt_locations) == 0: return 0
+            
+
+    def evaluate(self, state):
+        if len(state.dirt_locations) == 0:
+            return 0
         
+
         
+        print "dists=",dists
         print "Find Best ditrs for Robots backwise"
+        nrobots = len(state.robots)
         
         
+        robot_goals_list =[list(state.dirt_locations) for _ in xrange(nrobots)]
+        print "robot_goals_list",robot_goals_list       
         
-        #print "evaluating robots= ", state.robots 
-        
-        #matches 
-        matches = []
-        while len(dists) > 0:
-            x = []
-            worst_dirt = dists[0][1]
+        # remove goal from targets of all robots except robot_goals
+        # return list of robot_goals, which length became 1 after filter
+        def remove_goal_from_targets_but(robot_goals_list,goal,cur_robot_goals):
+            print "remove_goal_from_targets_but",robot_goals_list,  goal,cur_robot_goals    
+            ones = [] # 
+            for robot_goals in robot_goals_list:
+                print "robot_goals_list",robot_goals_list       
+                #skip current robot: let this goal in his let
+                if robot_goals is cur_robot_goals:
+                    continue
+                #remove goal from other's list, but always robot has a goal
+                if len(robot_goals) > 1:
+                    robot_goals.remove(goal)
+                    print "len(robot_goals)=",len(robot_goals)
+                    if len(robot_goals) == 1:
+                        ones.append((robot_goals[0],robot_goals))
+                    print "removed ", goal, "from", robot_goals_list.index(robot_goals)
+                    print "now its ", robot_goals
+            return ones
+        # build
+        for row in dists:
+            _, cur_goal, robot_index = row
+            cur_robot_goals = robot_goals_list[robot_index]
             
-            print "worst_dirt=",worst_dirt 
+            ones = remove_goal_from_targets_but(robot_goals_list,cur_goal,cur_robot_goals)
+            print "removing ons: ", ones
+            for (goal,robot_goals) in ones:
+                remove_goal_from_targets_but(robot_goals_list,goal,robot_goals)
             
-            for i in range(len(dists)):
-                if dists[i][1] == worst_dirt:
-                    x.append(dists[i])
-                    print "x.append(dists[i])=",dists[i] 
-            x.sort()
-            matches.append(x[0])
-            print "matches=" ,matches
-            
-            for xi in x:
-                poped = dists.pop(dists.index(xi))
-                print "dists.pop(dists.index(xi))=", poped
-            print "x=",x 
+            print row           
+        
+        #now each robot has a goal in robot_goals_list, the goals are different
+        #next we will evaluate each robot
+        # filter dists table
+        
+        def remove_used_goals(dist_row):
+            _, cur_goal, _ = dist_row
+            for g in robot_goals_list:
+                goal = g[0]
+                if cur_goal == goal: return False
+            return True
                 
-        print "matches:" , matches
-        print "-"    
-  
-        rank = 0
-        power = len(matches)             
-        for dist, dirt_loc, robot in matches:
-            rank += pow(dist, power)
-            power -= 1
-            print "pow = {0}, dist={1}, dirt_loc={2}, robot={3}".format(power,dist, dirt_loc, robot)
-            print rank
-        print      
-        print
-        return rank
+        dists = filter(remove_used_goals, dists)     
+        
+
+               
+        def choose_new_goal_for(robot_index,dists):
+            rlist = filter(lambda row: row[2]==robot_index, dists)
+            goal = min([row[1] for row in rlist])
+           
+           
+        # finish
+        solution_len  = 0
+        while dists != []:
+            distance_to_goal_list = [ self.distance(r, g) for (r,g) in zip(state.robots, robot_goals_list)]
+            min_dist = min(distance_to_goal_list)
+            
+            step = min_dist
+            solution_len += step
+            
+            nd_list = []
+            ri = 0
+            for d in distance_to_goal_list:
+                nd = d - step
+                if nd == 0:
+                    #remove old goal from dists
+                    dists = filter(lambda row: row[1]==distance_to_goal_list(ri), dists)
+                    #choose_new_goal_for zero
+                    new_goal = choose_new_goal_for(ri,dists)                     
+                    #remove choose goal from dist tables
+                    dists = filter(lambda row: row[2] == new_goal , dists)
+                    # setup new goal
+                    robot_goals_list[ri] = new_goal
+                    nd = self.distance(state.robots[ri],new_goal) 
+                nd_list.append(nd)
+        
+        
+        #now choose smalet distnace and reduse all distances by i
+            
+        print  "dists",dists           
+                           
+        print "robot_goals_list", robot_goals_list   
+        return 0    
     
         #
 
