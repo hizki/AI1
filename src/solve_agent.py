@@ -9,7 +9,7 @@ from search.astar import AStar, IterativeDeepeningAStar
 
 class SolveAgent(ProblemAgent):
     def __init__(self):
-        self.heuristic = heuristics.PowerHeuristic()
+        self.heuristic = heuristics.PowerHeuristic2()
         self.algo = BestFirstGraphSearch()
 
     def getHeuristic(self):
@@ -18,15 +18,15 @@ class SolveAgent(ProblemAgent):
     def solve(self, problem_state, time_limit):
         return self.algo.find(problem_state, self.heuristic)
 
-#problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)
+problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)
 #problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)  very interesting room
-problem = rooms.complexRoom2()
+#problem = rooms.complexRoom2()
 print "Start"
 print problem
 
 agent = SolveAgent()
 start = time.clock()
-solution = agent.solve(problem, 17)
+solution = agent.solve(problem, 5)
 run_time = time.clock() - start
 
 
