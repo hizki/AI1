@@ -13,7 +13,9 @@ class PowerHeuristic(Heuristic):
         if len(state.dirt_locations) == 0:
             return 0
         
-        # table of distances between all robots and all dirts
+        # table of distances between all robots and all dirts.
+        # sort in descending order.
+        # format: (distance, dirt location, robot location)*
         dists = []
         for dirt_loc in state.dirt_locations:
             for robot in range(len(state.robots)):
@@ -22,13 +24,22 @@ class PowerHeuristic(Heuristic):
         
         matches = []
         while len(dists) > 0:
-            x = []
+            # worst_dirt - the dirt pile that is farthest from all the robots.
             worst_dirt = dists[0][1]
+            
+            # x - the distances of all the robots from worst_dirt.
+            x = []
+            
             for i in range(len(dists)):
                 if dists[i][1] == worst_dirt:
                     x.append(dists[i])
+            
+            # add to 'matches' the tuple of dist*dirt*robot that gives the farthest robot
+            # it's closest robot.
             x.sort()
             matches.append(x[0])
+            
+            # remove all data of that dirt pile from the dists table.
             for xi in x:
                 dists.pop(dists.index(xi))
             
