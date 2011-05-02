@@ -175,6 +175,17 @@ X      1X *  X
 XXXXXXXXXXXXXX
 ''',
 
+'linear_test':'''
+XXXXXXXXXXXXXX
+X * 0     * *X
+X            X
+X 1          X
+X            X
+X            X
+X            X
+X            X
+XXXXXXXXXXXXXX
+''',
 
 }
 

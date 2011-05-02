@@ -65,6 +65,61 @@ class PowerHeuristic(Heuristic):
 '''
 
 
+class LinearAdmisibleHeuristic(Heuristic):
+    
+    def distance(self, a, b):
+        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+    def evaluate(self, state):
+        if len(state.dirt_locations) == 0:
+            return 0
+        
+        # table of distances between all robots and all dirts
+        dists = []
+        for dirt_loc in state.dirt_locations:
+            for robot in range(len(state.robots)):
+                dists.append((self.distance(state.robots[robot], dirt_loc), dirt_loc, robot))
+        dists.sort(reverse=True)
+        
+        print "evaluating robots= ", state.robots 
+        
+        #matches 
+        matches = []
+        while len(dists) > 0:
+            x = []
+            worst_dirt = dists[0][1]
+            
+            print "worst_dirt=",worst_dirt 
+            
+            for i in range(len(dists)):
+                if dists[i][1] == worst_dirt:
+                    x.append(dists[i])
+                    print "x.append(dists[i])=",dists[i] 
+            x.sort()
+            matches.append(x[0])
+            print "matches=" ,matches
+            
+            for xi in x:
+                poped = dists.pop(dists.index(xi))
+                print "dists.pop(dists.index(xi))=", poped
+            print "x=",x 
+                
+        print "matches:" , matches
+        print "-"    
+  
+        rank = 0
+        power = len(matches)             
+        for dist, dirt_loc, robot in matches:
+            rank += pow(dist, power)
+            power -= 1
+            print "pow = {0}, dist={1}, dirt_loc={2}, robot={3}".format(power,dist, dirt_loc, robot)
+            print rank
+        print      
+        print
+        return rank
+    
+        #
+
 class ObstacleHeuristic(PowerHeuristic):
     
     def __init__(self):

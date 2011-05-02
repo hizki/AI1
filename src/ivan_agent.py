@@ -12,7 +12,7 @@ from search.astar import AStar
 class SolveAgent(ProblemAgent):
 
     def __init__(self):
-        self.heuristic = heuristics.PowerHeuristic()
+        self.heuristic = heuristics.LinearAdmisibleHeuristic()
         #self.algo = BestFirstGraphSearch()
         self.algo = AStar()
     def getHeuristic(self):
@@ -23,7 +23,7 @@ class SolveAgent(ProblemAgent):
     
 
 
-problem = room_problems.all_static_rooms['obstacle_Far_CloseTest']
+problem = room_problems.all_static_rooms['linear_test']
 print problem
 
 agent = SolveAgent()
