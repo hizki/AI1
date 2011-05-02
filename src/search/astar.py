@@ -15,6 +15,10 @@
 from algorithm import SearchAlgorithm
 from graph import GraphSearch
 from search.utils import sys, infinity, PriorityQueue
+from utils import *
+import time
+
+from search.utils import sys, infinity, PriorityQueue
 
 class AStar (SearchAlgorithm):
     '''
@@ -76,7 +80,12 @@ class IterativeDeepeningAStar (SearchAlgorithm):
         '''
         for depth in xrange(1, self.max_depth):
             search = AStar(depth)
+            
+            start = time.clock()
             solution = search.find(problem_state, heuristic)
+            running = time.clock() - start
+            GraphSearch.time_limit -= running
+            
             if solution:
                 return solution
         return None

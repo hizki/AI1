@@ -6,26 +6,29 @@ import ivan_heuristics
 import time
 from search.beam_search import BeamSearch
 from search.dijkstra import Dijkstra
+import room_problems
+from search.astar import AStar
 
 class SolveAgent(ProblemAgent):
 
     def __init__(self):
         self.heuristic = heuristics.PowerHeuristic()
-        self.algo = BestFirstGraphSearch()
-
+        #self.algo = BestFirstGraphSearch()
+        self.algo = AStar()
     def getHeuristic(self):
         return self.heuristic
 
     def solve(self, problem_state, time_limit):
-        return algo.find(problem_state, self.heuristic)
+        return self.algo.find(problem_state, self.heuristic)
+    
 
 
-problem = rooms.twoRobotsInOpCorners()
+problem = room_problems.all_static_rooms['obstacle_Far_CloseTest']
 print problem
 
 agent = SolveAgent()
 start = time.clock()
-solution = agent.solve(problem, 17)
+solution = agent.solve(problem,20000)
 run_time = time.clock() - start
 
 

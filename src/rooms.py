@@ -77,32 +77,23 @@ def randomRoom(x, y, r, d, o, seed):
     for i in range(r): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
-        while (a,b) in objects:
-            a = random.randint(0,x-1)
-            b = random.randint(0,y-1)
+        if (a,b) not in objects:
+            robots.append((a,b))
+            objects.append((a,b))
 
-        robots.append((a,b))
-        objects.append((a,b))
-        
     for i in range(d): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
-        while (a,b) in objects:
-            a = random.randint(0,x-1)
-            b = random.randint(0,y-1)
+        if (a,b) not in objects:
+            dirt_locations.add((a,b))
+            objects.append((a,b))
 
-        dirt_locations.add((a,b))
-        objects.append((a,b))
-        
     for i in range(o): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
-        while (a,b) in objects:
-            a = random.randint(0,x-1)
-            b = random.randint(0,y-1)
-        
-        obstacle_locations.add((a,b))
-        objects.append((a,b))
+        if (a,b) not in objects:
+            obstacle_locations.add((a,b))
+            objects.append((a,b))
 
     return MultiRobotState(x, y, tuple(robots), frozenset(dirt_locations), frozenset(obstacle_locations))
 
@@ -131,22 +122,6 @@ def room1():
     createWall((2,3), (8,3), obstacle_locations)
 
     return MultiRobotState(9, 6, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
-
-def bestFirstRoom():
-    robots = tuple([(3,0)])
-
-    dirt_locations = set()
-    dirt_locations.add((0,0))
-    dirt_locations.add((4,0))
-    dirt_locations.add((5,0))
-    dirt_locations.add((6,0))
-    dirt_locations.add((7,0))
-    dirt_locations.add((8,0))
-    dirt_locations.add((9,0))
-
-    obstacle_locations = set()
-
-    return MultiRobotState(10, 1, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
 
 def roomLongWithObstaccle():
     robots = tuple([(0,0),(0,6)])
@@ -221,6 +196,20 @@ def ivansRevenge():
 
     return MultiRobotState(10, 3, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
 
+'''
+XXXXXXXXXXXX
+X*        *X
+X          X
+X          X
+X          X
+X    02    X
+X    31    X
+X          X
+X          X
+X          X
+X*        *X
+XXXXXXXXXXXX
+'''
 def split():
     robots = tuple([(4,4),(5,5),(5,4),(4,5)])
 
@@ -259,15 +248,6 @@ def zigzagUpright():
     createWall((1,5), (3,5), obstacle_locations)
 
     return MultiRobotState(4, 20, robots, frozenset(dirt_locations), frozenset(obstacle_locations))
-
-def borisRevenge():
-    width = 10
-    height = 10
-    robots = ((3, 8), (3, 2), (5, 0))
-    dirt_locations = frozenset([(1, 3), (9, 1), (4, 8), (3, 7), (1, 4), (5, 3)])
-    obstacle_locations = frozenset([(-4, 5), (7, 3), (9, 8), (7, 7), (0, 7), (-4, 2), (6, 2), (9, 4), (-4, 6), (7, 2), (-2, 1), (-3, 7), (-1, 7), (7, 6), (-4, 3), (6, 3), (-1, 1), (-4, 7), (1, 1), (9, 7), (9, 3), (-2, 7), (6, 0), (-3, 1), (7, 5), (9, 6), (0, 1), (-4, 4), (6, 1), (7, 4), (-4, 1), (1, 7), (9, 5)])
-    problem = MultiRobotState(width, height, robots, dirt_locations, obstacle_locations)
-    return problem
 
 # rooms by string: from http://asciipaint.com/
 

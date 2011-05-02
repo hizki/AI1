@@ -163,6 +163,19 @@ X   1X
 XXXXXX
 ''',
 
+'obstacle_Far_CloseTest':'''
+XXXXXXXXXXXXXX
+X0           X
+XXXXXX  X    X
+X   *X  X    X
+X    X  X    X
+X    X  X    X
+X    X  X    X
+X      1X *  X
+XXXXXXXXXXXXXX
+''',
+
+
 }
 
 

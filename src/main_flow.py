@@ -14,6 +14,9 @@ import matplotlib as mpl
 import pylab
 
 
+def column_of(table,c):
+    return [ line[c] for line in table ]
+
 class MainFlow():
     '''
     
@@ -25,8 +28,6 @@ class MainFlow():
         self.x_axis     = x_axis
         self.y_axis     = y_axis
         self.runtime_limit = runtime_limit
-        
-        
         
         
     def runSeries(self, agent, rooms, series_limit):
@@ -46,26 +47,26 @@ class MainFlow():
         table = [ measure_room(room) for room in  rooms.items() ]
         return table
     
-    # instance is algorithm + heuristics
     
+    
+
+    def def table 
+
     def compareTwoAgents(self, agent1, agent2, rooms, time_limit):
         
         tables = [self.runSeries(agent,rooms,time_limit) for agent in [agent1, agent2] ]
         # ( 'roomId', 'agent1 len', 'agent2 len', 
-        lens_table =
+        
+        room_id, tables[1][room_id], tables[1][room_id]
+        
+        lens_table = zip(column_of(tables[1], 1), column_of(tables[2], 1))
+        
+        
+        
         time_table =
 
         
-        
-    
 
-
-
-
-
-
-def column_of(table,c):
-    return [ line[c] for line in table ]
           
 def main():
     print "Start"
@@ -80,6 +81,10 @@ def main():
     
     lens  = column_of(table, 1) # [ line[1] for line in table ]
     times = column_of(table, 2) # [ line[2] for line in table ]
+    
+    lens_dict = dict([ (line[0], line[1]) for line in table ])
+    lens_dict = dict([ (line[0], line[1]) for line in table ])
+    
     
     print lens
     print times

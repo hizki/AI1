@@ -16,6 +16,7 @@
 
 from algorithm import SearchAlgorithm
 from utils import *
+import time
 
 ##########################
 ##   Graph Definition   ##
@@ -115,7 +116,8 @@ class GraphSearch (SearchAlgorithm):
     order in which open states are handled (see documentation in __init____).
     It may also take a maximum depth at which to stop, if needed.
     '''
-
+    time_limit = infinity #used to bound search time
+    
     def __init__(self, container_generator, max_depth=infinity):
         '''
         Constructs the graph search with a generator for the container to use
@@ -142,11 +144,16 @@ class GraphSearch (SearchAlgorithm):
         @param problem_state: The initial state to start the search from.
         @param heuristic: Ignored.
         '''
+        start = time.clock() #time support
+        
         open_states = self.container_generator()
         closed_states = {}
         
         open_states.append(Node(problem_state))
         while open_states and len(open_states) > 0:
+            running = time.clock() - start       #time support
+            if running > GraphSearch.time_limit: return None #time support
+            
             node = open_states.pop()
             
             if node.depth > self.max_depth:
