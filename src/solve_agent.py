@@ -9,7 +9,7 @@ from search.astar import AStar, IterativeDeepeningAStar
 
 class SolveAgent(ProblemAgent):
     def __init__(self):
-        self.heuristic = heuristics.PowerHeuristic()
+        self.heuristic = heuristics.PowerHeuristic2()
         self.algo = BestFirstGraphSearch()
 
     def getHeuristic(self):

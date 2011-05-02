@@ -1,5 +1,6 @@
 from search.algorithm import Heuristic
 import obstacles
+import math
 
 class ExampleHeuristic(Heuristic):
     def evaluate(self, state):
@@ -51,6 +52,69 @@ class PowerHeuristic(Heuristic):
             power -= 1
                
         return rank
+    
+class PowerHeuristic2(Heuristic):
+    def distance(self, a, b):
+        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
+    def evaluate(self, state):
+        if len(state.dirt_locations) == 0:
+            return 0
+        
+        # divide the piles of dust between robots
+        # (rounded up, i.e. 3 piles and 2 robots = 2 piles per robot)
+        dirt_per_robot = float(len(state.dirt_locations)) / len(state.robots)
+        dirt_per_robot = math.ceil(dirt_per_robot)
+        
+        # table of distances between all robots and all dirts.
+        # sort in descending order.
+        # format: (distance, dirt location, robot location)*
+        dists = []
+        for dirt_loc in state.dirt_locations:
+            for robot in range(len(state.robots)):
+                dists.append((self.distance(state.robots[robot], dirt_loc), dirt_loc, robot))
+        dists.sort(reverse=True)
+        
+        matches = []
+        while len(dists) > 0:
+            # a list of counter for all robots
+            done = [0]*len(state.robots)
+            
+            # worst_dirt - the dirt pile that is farthest from all the robots.
+            worst_dirt = dists[0][1]
+            
+            # x - the distances of all the robots from worst_dirt.
+            x = []
+            
+            for i in range(len(dists)):
+                if dists[i][1] == worst_dirt:
+                    x.append(dists[i])
+            
+            # add to 'matches' the tuple of dist*dirt*robot that gives the farthest robot
+            # it's closest robot.
+            x.sort()
+            matches.append(x[0])
+            
+            # remove all data of that dirt pile from the dists table.
+            for xi in x:
+                dists.pop(dists.index(xi))
+            
+            # increase the 'done' counter of robot x[0][2]
+            # (x[0] - the best dist for the farthest pile, x[0][2] - corresponding the robot).
+            # if the 'done' counter reaches 'dirt_per_robot',
+            # remove that robot from the 'dists' table.
+            done[x[0][2]] += 1
+            if x[0][2] > dirt_per_robot:
+                dists = [dist for dist in dists if not dist[2] == x[0][2]]
+            
+        rank = 0
+        power = len(matches)             
+        for dist, dirt_loc, robot in matches:
+            rank += pow(dist, power)
+            power -= 1
+               
+        return rank    
+
 '''        
         robo_goals = []
         for r in range(len(state.robots)):
