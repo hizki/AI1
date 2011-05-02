@@ -11,10 +11,10 @@ class Test(unittest.TestCase):
 
 
     def testLinearH(self):
-        h  = heuristics.PowerHeuristic2()
+        h  = heuristics.LinearAdmisibleHeuristic()
         room = all_static_rooms['linear_test']
-        print h.evaluate( room )
-
+        solen = h.evaluate( room )
+        print "solen=", solen
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

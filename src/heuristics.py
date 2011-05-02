@@ -172,111 +172,99 @@ class LinearAdmisibleHeuristic(Heuristic):
         dists.sort(reverse=True)    
         return dists
     
+    # return list of robot_goals, which length became 1 after filter
+    def remove_goal_from_targets_but(self,robot_goals_list,goal,cur_robot_goals):  
+        ones = [] # 
+        for robot_goals in robot_goals_list:
+            print "robot_goals_list",robot_goals_list       
+            #skip current robot: let this goal in his let
+            if robot_goals is cur_robot_goals:
+                continue
+            #remove goal from other's list, but always robot has a goal
+            if len(robot_goals) > 1:
+                robot_goals.remove(goal)
+                print "len(robot_goals)=",len(robot_goals)
+                if len(robot_goals) == 1:
+                    ones.append((robot_goals[0],robot_goals))
+                print "removed ", goal, "from", robot_goals_list.index(robot_goals)
+                print "now its ", robot_goals
+        return ones
     
-    def evaluate(self, state):
-        # break: no dust =>no thing to do
-        if len(state.dirt_locations) == 0: return 0
+    def build_primary_targets_list(self,state,dists):
+        ''' returns list of best targets for each robot
+        by robot index
+        '''
+        number_of_robots = len(state.robots)
+        primary_targets_list =[ list(state.dirt_locations) for _ in xrange(number_of_robots)]
+    
+        # remove goal from targets of all robots except robot_goals
+        # build
+        for row in dists:
+            _, cur_goal, robot_index = row
+            cur_robot_goals = primary_targets_list[robot_index]
+            ones = self.remove_goal_from_targets_but(primary_targets_list,cur_goal,cur_robot_goals)
+            print "removing ons: ", ones
+            for (goal,robot_goals) in ones:
+                self.remove_goal_from_targets_but(primary_targets_list,goal,robot_goals)
+        return self.list_flat(primary_targets_list)
             
-
+    
+    def list_flat(self,list): return [item for sublist in list for item in sublist]
+        
+    
+    def remove_used_goals(self,distances_table,targets_list):
+        ''' removes all lines with dirt location from primary_targets_list
+        @param targets_list: [ t1, t2,....]
+            t1 = (x,y) dirt locations
+        '''
+        return filter(lambda row: row[1] not in targets_list ,distances_table) 
+    
+    def remove_goals(self,distances_table, goal):    
+        return filter(lambda row: row[1] != goal , distances_table)
+        
+        
     def evaluate(self, state):
         if len(state.dirt_locations) == 0:
             return 0
         
+        distances_table =  self.build_distance_table(state)
+        primary_targets_list = self.build_primary_targets_list(state, distances_table)
+        self.remove_used_goals(distances_table, primary_targets_list)
 
         
-        print "dists=",dists
-        print "Find Best ditrs for Robots backwise"
-        nrobots = len(state.robots)
+        distance_to_goal_list = [ (self.distance(r, g), g, ri) 
+                                  for (r,g,ri) 
+                                  in zip(state.robots, 
+                                         primary_targets_list, 
+                                         xrange(len(state.robots)))]
+        # clear distance tables
+        goals = zip(*distance_to_goal_list)[1]
+        distances_table = self.remove_used_goals(distances_table, goals )
         
         
-        robot_goals_list =[list(state.dirt_locations) for _ in xrange(nrobots)]
-        print "robot_goals_list",robot_goals_list       
-        
-        # remove goal from targets of all robots except robot_goals
-        # return list of robot_goals, which length became 1 after filter
-        def remove_goal_from_targets_but(robot_goals_list,goal,cur_robot_goals):
-            print "remove_goal_from_targets_but",robot_goals_list,  goal,cur_robot_goals    
-            ones = [] # 
-            for robot_goals in robot_goals_list:
-                print "robot_goals_list",robot_goals_list       
-                #skip current robot: let this goal in his let
-                if robot_goals is cur_robot_goals:
-                    continue
-                #remove goal from other's list, but always robot has a goal
-                if len(robot_goals) > 1:
-                    robot_goals.remove(goal)
-                    print "len(robot_goals)=",len(robot_goals)
-                    if len(robot_goals) == 1:
-                        ones.append((robot_goals[0],robot_goals))
-                    print "removed ", goal, "from", robot_goals_list.index(robot_goals)
-                    print "now its ", robot_goals
-            return ones
-        # build
-        for row in dists:
-            _, cur_goal, robot_index = row
-            cur_robot_goals = robot_goals_list[robot_index]
-            
-            ones = remove_goal_from_targets_but(robot_goals_list,cur_goal,cur_robot_goals)
-            print "removing ons: ", ones
-            for (goal,robot_goals) in ones:
-                remove_goal_from_targets_but(robot_goals_list,goal,robot_goals)
-            
-            print row           
-        
-        #now each robot has a goal in robot_goals_list, the goals are different
-        #next we will evaluate each robot
-        # filter dists table
-        
-        def remove_used_goals(dist_row):
-            _, cur_goal, _ = dist_row
-            for g in robot_goals_list:
-                goal = g[0]
-                if cur_goal == goal: return False
-            return True
-                
-        dists = filter(remove_used_goals, dists)     
-        
-
-               
-        def choose_new_goal_for(robot_index,dists):
-            rlist = filter(lambda row: row[2]==robot_index, dists)
-            goal = min([row[1] for row in rlist])
-           
-           
-        # finish
+        # (self.distance(r, g),robot index)
         solution_len  = 0
-        while dists != []:
-            distance_to_goal_list = [ self.distance(r, g) for (r,g) in zip(state.robots, robot_goals_list)]
-            min_dist = min(distance_to_goal_list)
-            
+        while  distance_to_goal_list != []:
+            min_dist, _, _ = min(distance_to_goal_list)
             step = min_dist
             solution_len += step
-            
             nd_list = []
-            ri = 0
-            for d in distance_to_goal_list:
-                nd = d - step
-                if nd == 0:
-                    #remove old goal from dists
-                    dists = filter(lambda row: row[1]==distance_to_goal_list(ri), dists)
-                    #choose_new_goal_for zero
-                    new_goal = choose_new_goal_for(ri,dists)                     
+            #print "distance_to_goal_list=",distance_to_goal_list
+            for d, g, robo_index in distance_to_goal_list:            
+                new_distance = d - step
+                new_goal_row = (new_distance,g, robo_index)
+                if new_distance == 0:
+                    # if we finished table no need to find new goal
+                    if distances_table == []: continue
+                    #choose new goal for this robot
+                    new_goal_row = min([row for row in distances_table if row[2]==robo_index])
+                    (_, g, _) = new_goal_row                                   
                     #remove choose goal from dist tables
-                    dists = filter(lambda row: row[2] == new_goal , dists)
-                    # setup new goal
-                    robot_goals_list[ri] = new_goal
-                    nd = self.distance(state.robots[ri],new_goal) 
-                nd_list.append(nd)
-        
-        
-        #now choose smalet distnace and reduse all distances by i
-            
-        print  "dists",dists           
-                           
-        print "robot_goals_list", robot_goals_list   
-        return 0    
-    
-        #
+                    distances_table = self.remove_goals(distances_table, g)
+                nd_list.append(new_goal_row)
+            distance_to_goal_list = nd_list
+        return solution_len
+
 
 class ObstacleHeuristic(PowerHeuristic):
     
