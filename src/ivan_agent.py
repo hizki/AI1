@@ -12,7 +12,7 @@ from search.astar import AStar
 class SolveAgent(ProblemAgent):
 
     def __init__(self):
-        self.heuristic = heuristics.LinearAdmisibleHeuristic()
+        self.heuristic = heuristics.PowerHeuristic2()
         #self.algo = BestFirstGraphSearch()
         self.algo = AStar()
     def getHeuristic(self):

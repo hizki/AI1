@@ -161,7 +161,7 @@ class LinearAdmisibleHeuristic(Heuristic):
         
         
         
-        print "evaluating robots= ", state.robots 
+        #print "evaluating robots= ", state.robots 
         
         #matches 
         matches = []
