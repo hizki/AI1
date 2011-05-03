@@ -151,8 +151,6 @@ class GraphSearch (SearchAlgorithm):
         
         open_states.append(Node(problem_state))
         while open_states and len(open_states) > 0:
-            running = time.clock() - start       #time support
-            if running > GraphSearch.time_limit: return None #time support
             
             node = open_states.pop()
             
