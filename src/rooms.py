@@ -1,6 +1,24 @@
 from multi_robot_problem import MultiRobotState
 import random
 from random import Random
+from room_problems import RoomID
+
+class RoomID():
+    def __init__(self,width, height, robots, dusts, obstacles, seed):
+        self.width = width
+        self.height = height
+        self.robots = robots
+        self.dusts = dusts
+        self.obstacles = obstacles
+        self.seed = seed
+        
+    def __str__(self):
+        id_tmpl = 'random_room_{width}x{height}_r{robots}_d{dusts}_o{obstacles}__s{seed}'
+        id = id_tmpl.format(width=self.width, height=self.height, robots=self.robots, dusts=self.dusts, obstacles=self.obstacles, seed=self.seed)
+        return id
+    
+    def __repr__(self):
+        return self.__str__()
 
 def roomFromString(str):
     '''
@@ -219,7 +237,10 @@ def randomRoom2(width_t, height_t, robots_t, dirt_piles_t, simple_obs_t,
         obstacle_locations.add((a,b))
         objects.append((a,b))
 
-    return MultiRobotState(x, y, tuple(robots), frozenset(dirt_locations), frozenset(obstacle_locations))
+    room = MultiRobotState(x, y, tuple(robots),
+       frozenset(dirt_locations), frozenset(obstacle_locations))
+    room_id = RoomID(x, y, r, o, seed)
+    return (room_id, room)
 
 
 def exampleProblem():
