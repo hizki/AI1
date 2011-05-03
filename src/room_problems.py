@@ -6,6 +6,8 @@ Created on Apr 29, 2011
 from multi_robot_problem import MultiRobotState
 import random
 import unittest # TODO: check if needed.
+
+
     
 static_rooms_repr = {
 'complexRoom':'''
@@ -110,6 +112,37 @@ X*        *X
 XXXXXXXXXXXX
 ''',
 
+'split2':'''
+XXXXXXXXXXXX
+X*        *X
+X 0      2 X
+X          X
+X          X
+X          X
+X    31    X
+X          X
+X          X
+X          X
+X*        *X
+XXXXXXXXXXXX
+''',
+
+
+'split3':'''
+XXXXXXXXXXXX
+X*        *X
+X 0      1 X
+X          X
+X          X
+X          X
+X          X
+X          X
+X 2     3  X
+X          X
+X*        *X
+XXXXXXXXXXXX
+''',
+
 'twoRobots':'''
 XXXXXXXXXXX
 X* 1     *X
@@ -188,6 +221,8 @@ XXXXXXXXXXXXXX
 ''',
 
 }
+
+
 
 
 
