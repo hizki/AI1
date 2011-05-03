@@ -21,7 +21,7 @@ class SolveAgent(ProblemAgent):
         return self.algo.find(problem_state, self.heuristic, time_limit)
 
 #problem = room_problems.all_static_rooms['linear_test']
-problem = rooms.randomRoom(10, 10, 3, 15, 20, 2)
+problem = rooms.randomRoom2(10, 10, 3, 4, 3, 4, 10, 15, 1, 2, 6, 10, 4)
 #problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)  very interesting room
 #problem = rooms.complexRoom2()
 

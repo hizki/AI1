@@ -1,6 +1,7 @@
 import types
 from multi_robot_problem import MultiRobotState
 import random
+from random import Random
 
 def roomFromString(str):
     '''
@@ -77,25 +78,145 @@ def randomRoom(x, y, r, d, o, seed):
     for i in range(r): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
-        if (a,b) not in objects:
-            robots.append((a,b))
-            objects.append((a,b))
+        while (a,b) in objects:
+            a = random.randint(0,x-1)
+            b = random.randint(0,y-1)
 
+        robots.append((a,b))
+        objects.append((a,b))
+        
     for i in range(d): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
-        if (a,b) not in objects:
-            dirt_locations.add((a,b))
-            objects.append((a,b))
+        while (a,b) in objects:
+            a = random.randint(0,x-1)
+            b = random.randint(0,y-1)
 
+        dirt_locations.add((a,b))
+        objects.append((a,b))
+        
     for i in range(o): #@UnusedVariable
         a = random.randint(0,x-1)
         b = random.randint(0,y-1)
-        if (a,b) not in objects:
-            obstacle_locations.add((a,b))
-            objects.append((a,b))
+        while (a,b) in objects:
+            a = random.randint(0,x-1)
+            b = random.randint(0,y-1)
+        
+        obstacle_locations.add((a,b))
+        objects.append((a,b))
+
 
     return MultiRobotState(x, y, tuple(robots), frozenset(dirt_locations), frozenset(obstacle_locations))
+
+def create_complex_ob(x, y, objects, size, rand):
+
+    wall = []
+
+    start_x = rand.randint(0,x-1)
+    start_y = rand.randint(0,y-1)
+    while (start_x, start_y) in objects:
+        start_x = rand.randint(0,x-1)
+        start_y = rand.randint(0,y-1)
+   
+    wall.append((start_x,start_y))
+   
+    if (start_x > x/2):
+        if (start_y > y/2):
+            moves = [(-1,0),(-1,-1),(0,-1),(1,-1)]
+        else:
+            moves = [(0,1),(-1,1),(-1,0),(-1,-1)]
+    else:
+        if (start_y > y/2):
+            moves = [(0,-1),(1,-1),(1,0),(1,1)]
+        else:
+            moves = [(1,0),(1,1),(0,1),(-1,1)]
+          
+    prev_ob = (start_x, start_y)
+    
+    for s in range(size): #@UnusedVariable
+        moves_temp = list(moves)
+        move_i = rand.randint(0,len(moves_temp)-1)
+        new_ob = (prev_ob[0] + 
+                  moves_temp[move_i][0],
+                  prev_ob[1] + 
+                  moves_temp[move_i][1])
+        while ((new_ob in objects) or (new_ob[0] >= x) or (new_ob[1] >= y) \
+                or (new_ob[0] < 0) or (new_ob[1] < 0)) \
+                and (len(moves_temp) > 1):
+            moves_temp.remove(moves_temp[move_i])
+            move_i = rand.randint(0,len(moves_temp) - 1)
+            new_ob = (prev_ob[0] + moves_temp[move_i][0], prev_ob[1] + moves_temp[move_i][1])
+                    
+        if len(moves_temp) == 1:
+            return wall
+          
+        wall.append(new_ob)
+        prev_ob = new_ob   
+        
+    return wall
+         
+def randomRoom2(x, y,
+                min_robots, max_robots,
+                min_dirt_piles, max_dirt_piles,
+                min_simple_obs, max_simple_obs, 
+                min_complex_obs, max_complex_obs,
+                min_complex_obs_size, max_complex_obs_size,
+                seed):
+    
+    rand = Random(seed)
+    r = rand.randint(min_robots, max_robots)
+    d = rand.randint(min_dirt_piles, min_dirt_piles)
+    so = rand.randint(min_simple_obs, max_simple_obs)
+    co = rand.randint(min_complex_obs, min_complex_obs)
+    cos = rand.randint(min_complex_obs_size, max_complex_obs_size)
+    
+    if r+d+so+co*cos > x*y:
+        print 'You ask for too much... This is what you get:'
+        return exampleProblem()
+
+    random.seed(seed)
+    objects = []
+    robots  = []
+    obstacle_locations = set()
+    dirt_locations = set()
+
+    for i in range(co):
+        for o in create_complex_ob(x, y, objects, cos, rand):
+            obstacle_locations.add(o)
+            objects.append(o)
+
+    for i in range(r): #@UnusedVariable
+        a = random.randint(0,x-1)
+        b = random.randint(0,y-1)
+        while (a,b) in objects:
+            a = random.randint(0,x-1)
+            b = random.randint(0,y-1)
+
+        robots.append((a,b))
+        objects.append((a,b))
+        
+    for i in range(d): #@UnusedVariable
+        a = random.randint(0,x-1)
+        b = random.randint(0,y-1)
+        while (a,b) in objects:
+            a = random.randint(0,x-1)
+            b = random.randint(0,y-1)
+
+        dirt_locations.add((a,b))
+        objects.append((a,b))
+        
+    for i in range(so): #@UnusedVariable
+        a = random.randint(0,x-1)
+        b = random.randint(0,y-1)
+        while (a,b) in objects:
+            a = random.randint(0,x-1)
+            b = random.randint(0,y-1)
+        
+        obstacle_locations.add((a,b))
+        objects.append((a,b))
+
+    return MultiRobotState(x, y, tuple(robots), frozenset(dirt_locations), frozenset(obstacle_locations))
+
 
 def exampleProblem():
     # First Problem - Easy

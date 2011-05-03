@@ -58,6 +58,8 @@ class PowerHeuristic2(Heuristic):
         return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
     def evaluate(self, state):
+        
+        # if there are no dirt piles, the value of this state is 0.
         if len(state.dirt_locations) == 0:
             return 0
         
@@ -75,14 +77,15 @@ class PowerHeuristic2(Heuristic):
                 dists.append((self.distance(state.robots[robot], dirt_loc), dirt_loc, robot))
         dists.sort(reverse=True)
         
+        # a list of dist*dirt*robot that where chosen for the evaluation.
         matches = []
+        
+        # a list of counters for all robots. counts how many piles where assign per robot
         done = [0]*len(state.robots)
         while len(dists) > 0:
-            # a list of counter for all robots
             
             # worst_dirt - the dirt pile that is farthest from all the robots.
             worst_dirt = dists[0][1]
-#            print "worst_dirt = ", worst_dirt
             
             # x - the distances of all the robots from worst_dirt.
             x = []
@@ -95,8 +98,6 @@ class PowerHeuristic2(Heuristic):
             # it's closest robot.
             x.sort()
             matches.append(x[0])
-
-#            print "dists before piles filter:", dists
             
             # remove all references to that dirt pile from the dists table.
             for xi in x:
@@ -107,20 +108,11 @@ class PowerHeuristic2(Heuristic):
             # if the 'done' counter reaches 'dirt_per_robot',
             # remove that robot from the 'dists' table.
             done[x[0][2]] += 1
-#            print "dists before robot filter:", dists
-
             if done[x[0][2]] >= dirt_per_robot:
-#                print "filtering", x[0][2]
                 dists = [dist for dist in dists if not dist[2] == x[0][2]]
-            
-#            print "dists after both filters:", dists
-#            print "done array: ", done
-#            print "dirt_per_robot = ", dirt_per_robot
-#            print "number of robots = ", len(state.robots)
-#            print "number of piles", len(state.dirt_locations)
-#            print "matches: ", matches
-#            print ""
-            
+        
+        # calculate the value of the current state. give the matches different
+        # weights by priority. the shortest distances are of higher priority.
         rank = 0
         power = len(matches)           
         for dist, dirt_loc, robot in matches:
@@ -128,6 +120,39 @@ class PowerHeuristic2(Heuristic):
             power -= 1
                
         return rank    
+
+class GridHeuristic(Heuristic):
+    
+    def dividers(self, n):
+        d = math.sqrt(n)
+        d1 = int(math.ceil(d))
+        d2 = int(math.floor(d))
+        return (d1,d2)
+    
+    def evaluate(self, state):
+        (hor, ver) = self.dividers(state.robots)
+        hor -= 1
+        ver -= 1
+        
+        x = int(state[0])
+        y = int(state[1])
+        
+        cells_per_col = x / ver
+        cells_per_row = y / hor
+        
+        cells_x = [0]
+        cells_y = [0]
+        
+        for i in range(ver):
+            cells_x += [ cells_x[len(cells_x)-1] + cells_per_row ]
+        cells_x += [ x ]
+         
+        for i in range(hor):
+            cells_y += [ cells_y[len(cells_y)-1] + cells_per_col ]
+        cells_y += [ y ]
+        
+             
+        
 
 '''        
         robo_goals = []
