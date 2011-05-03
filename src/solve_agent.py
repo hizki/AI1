@@ -12,7 +12,7 @@ from search.anytime_beam_search import AnytimeBeamSearch
 class SolveAgent(ProblemAgent):
     def __init__(self):
         self.heuristic = heuristics.PowerHeuristic2()
-        self.algo = AnytimeBeamSearch(10)
+        self.algo = AnytimeBeamSearch(10,(1.2,"exp"))
 
     def getHeuristic(self):
         return self.heuristic
@@ -30,7 +30,7 @@ print problem
 
 agent = SolveAgent()
 start = time.clock()
-solution = agent.solve(problem, 6)
+solution = agent.solve(problem, 10)[0]
 run_time = time.clock() - start
 
 if solution == None:
