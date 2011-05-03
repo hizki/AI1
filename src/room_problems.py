@@ -112,6 +112,37 @@ X*        *X
 XXXXXXXXXXXX
 ''',
 
+'split2':'''
+XXXXXXXXXXXX
+X*        *X
+X 0      2 X
+X          X
+X          X
+X          X
+X    31    X
+X          X
+X          X
+X          X
+X*        *X
+XXXXXXXXXXXX
+''',
+
+
+'split3':'''
+XXXXXXXXXXXX
+X*        *X
+X 0      1 X
+X          X
+X          X
+X          X
+X          X
+X          X
+X 2     3  X
+X          X
+X*        *X
+XXXXXXXXXXXX
+''',
+
 'twoRobots':'''
 XXXXXXXXXXX
 X* 1     *X

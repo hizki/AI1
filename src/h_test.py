@@ -12,9 +12,13 @@ class Test(unittest.TestCase):
 
     def testLinearH(self):
         h  = heuristics.LinearAdmisibleHeuristic()
-        room = all_static_rooms['linear_test']
+        room = all_static_rooms['split3']
         solen = h.evaluate( room )
         print "solen=", solen
+
+
+    
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
