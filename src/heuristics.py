@@ -151,6 +151,7 @@ class GridHeuristic(Heuristic):
             cells_y += [ cells_y[len(cells_y)-1] + cells_per_col ]
         cells_y += [ y ]
         
+        # unfinished
              
         
 

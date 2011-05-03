@@ -39,10 +39,12 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         For example, if the heuristic is an estimate to the solution, then we have
         greedy best first search.
         If the heuristic is the depth of the node, then we have DFS.
-        Optionally a limit may be supplied to limit the depth of the seach.
+        Optionally a limit may be supplied to limit the depth of the search.
 
         @param problem_state: The initial state to start the search from.
         @param heuristic: A heuristic function that scores the Problem states.
+        
+        returns (solution,[all-sol-lens]) or None if none found
         '''
         # This is the node evaluation function for the given heuristic.
         def evaluator(node):
@@ -56,11 +58,13 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         start_time = time()
         end_time = start_time + time_limit
         
+        solution = None
+        sol_lens = []
+        
         open_states = queue_generator()
         closed_states = {}
+
         open_states.append(Node(problem_state))
-        
-        solution = None
         while open_states and len(open_states) > 0 and time() < end_time:
             node = open_states.pop()
 
@@ -70,10 +74,11 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
             if node.state.isGoal(): 
                 solution = node.getPathActions()
                 self.max_depth = node.depth
+                sol_lens.append(len(solution))
                 continue
 
             if (node.state not in closed_states) or (node.path_cost < closed_states[node.state]):
                 closed_states[node.state] = node.path_cost
                 open_states.extend(node.expand())
         
-        return solution
+        return (solution,sol_lens)
