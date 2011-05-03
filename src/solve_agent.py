@@ -12,7 +12,7 @@ from search.anytime_beam_search import AnytimeBeamSearch
 class SolveAgent(ProblemAgent):
     def __init__(self):
         self.heuristic = heuristics.PowerHeuristic2()
-        self.algo = AnytimeBeamSearch(8)
+        self.algo = AnytimeBeamSearch(10)
 
     def getHeuristic(self):
         return self.heuristic
