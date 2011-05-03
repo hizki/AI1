@@ -44,7 +44,7 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         @param problem_state: The initial state to start the search from.
         @param heuristic: A heuristic function that scores the Problem states.
         
-        returns (solution,[(time,sol_len)]) or None if none found
+        returns (solution,[(time,sol_len)]) or (None,[]) if none found
         '''
         # This is the node evaluation function for the given heuristic.
         def evaluator(node):
