@@ -6,7 +6,7 @@
 
 # This is an implementation of the SearchAlgorithm interface for the following
 # search algorithms:
-# - BestFirstGraphSearch
+# - AnytimeBestFirstGraphSearch
 
 from algorithm import SearchAlgorithm
 from search.utils import infinity, PriorityQueue

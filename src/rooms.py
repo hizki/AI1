@@ -1,4 +1,3 @@
-import types
 from multi_robot_problem import MultiRobotState
 import random
 from random import Random
@@ -155,24 +154,29 @@ def create_complex_ob(x, y, objects, size, rand):
         
     return wall
          
-def randomRoom2(x, y,
-                min_robots, max_robots,
-                min_dirt_piles, max_dirt_piles,
-                min_simple_obs, max_simple_obs, 
-                min_complex_obs, max_complex_obs,
-                min_complex_obs_size, max_complex_obs_size,
-                seed):
-    
+def randomRoom2(width_t, height_t, robots_t, dirt_piles_t, simple_obs_t, 
+                complex_obs_t, complex_obs_size_t, seed):
+
+    min_width, max_width = width_t
+    min_height, max_height = height_t
+    min_robots, max_robots = robots_t
+    min_dirt_piles, max_dirt_piles = dirt_piles_t
+    min_simple_obs, max_simple_obs = simple_obs_t
+    min_complex_obs, max_complex_obs = complex_obs_t
+    min_complex_obs_size, max_complex_obs_size = complex_obs_size_t
+
     rand = Random(seed)
+    
+    x = rand.randint(min_width, max_width)
+    y = rand.randint(min_height, max_height)
     r = rand.randint(min_robots, max_robots)
-    d = rand.randint(min_dirt_piles, min_dirt_piles)
+    d = rand.randint(min_dirt_piles, max_dirt_piles)
     so = rand.randint(min_simple_obs, max_simple_obs)
-    co = rand.randint(min_complex_obs, min_complex_obs)
+    co = rand.randint(min_complex_obs, max_complex_obs)
     cos = rand.randint(min_complex_obs_size, max_complex_obs_size)
     
     if r+d+so+co*cos > x*y:
-        print 'You ask for too much... This is what you get:'
-        return exampleProblem()
+        return None
 
     random.seed(seed)
     objects = []
@@ -180,7 +184,7 @@ def randomRoom2(x, y,
     obstacle_locations = set()
     dirt_locations = set()
 
-    for i in range(co):
+    for i in range(co): #@UnusedVariable
         for o in create_complex_ob(x, y, objects, cos, rand):
             obstacle_locations.add(o)
             objects.append(o)
