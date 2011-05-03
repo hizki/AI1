@@ -3,6 +3,8 @@
 Created on May 3, 2011
 
 @author: inesmeya
+
+Main function: is_room_solvable
 """
 from room_problems import all_static_rooms, roomsDictFromRepr
 
@@ -53,7 +55,7 @@ def make_room_map(room):
 def is_room_solvable(room):
     '''
     @param room: type: multi_robot_problem
-    @return: True if room is solveable
+    @return: True if room is solvable
              False if not
     '''
     # create set of reachable locations for all robots
