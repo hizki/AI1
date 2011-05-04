@@ -8,6 +8,9 @@ class ExampleHeuristic(Heuristic):
         return x
 
 class PowerHeuristic(Heuristic):
+    def name(self):
+        return "PowerHeuristic"
+    
     def distance(self, a, b):
         return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
@@ -54,6 +57,9 @@ class PowerHeuristic(Heuristic):
         return rank
     
 class PowerHeuristic2(Heuristic):
+    def name(self):
+        return "PowerHeuristic2"
+    
     def distance(self, a, b):
         return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
@@ -194,6 +200,8 @@ def select(test, list):
   
   
 class LinearAdmisibleHeuristic(Heuristic):
+    def name(self):
+        return "LinearHeuristic"
     
     def distance(self, a, b):
         return abs(a[0] - b[0]) + abs(a[1] - b[1])

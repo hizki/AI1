@@ -30,7 +30,7 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         self.max_depth = max_depth
 
     def name(self):
-        return "AnytimeBest:" + self.max_depth.__str__()
+        return "AnytimeBest-" + self.max_depth.__str__()
     
     def find(self, problem_state, heuristic, time_limit=infinity):
         '''
