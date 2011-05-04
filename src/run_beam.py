@@ -4,30 +4,16 @@ Created on May 4, 2011
 
 @author: inesmeya
 """
-from measurments import beam, best_first
-from utils import psave
-import os
-
+from measurments import beam
+import run_me
 
 def main():
-    base = os.getcwd()
     mes_funs =[beam]
-    rooms_count = 10
-    room_limit  = 40.0
+    rooms_count= 10
+    room_limit = 50.0
     
-    print "Start Running"
-    print "============="
+    run_me.run_tests(mes_funs, rooms_count, room_limit)
     
-    
-    for mf in mes_funs:
-        path= os.path.join(base,mf.__name__ + ".pck")
-        dbs = mf(rooms_count,room_limit)
-        print "saved:", path
-        psave(dbs,path)
-        
-    print "===== DONE ======"
-    
-
 
 if __name__ == "__main__":
     main()

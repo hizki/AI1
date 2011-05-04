@@ -4,7 +4,7 @@ Created on May 4, 2011
 
 @author: inesmeya
 """
-from meas_beam import RoomSet
+from measure_core import RoomSet
 from room_problems import all_static_rooms
 
 
