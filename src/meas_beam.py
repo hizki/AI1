@@ -4,7 +4,7 @@ Created on May 3, 2011
 
 @author: inesmeya
 """
-import xplot
+#mport xplot
 import time
 import heuristics
 import pickle
@@ -125,7 +125,7 @@ def ameasure(agents, roomsets,room_time_limit):
     for  agent in agents:
         ir = 0
         for roomset in  roomsets:
-            print "step=",step, "    a,r=",ia,ir
+            print "step=",step, " from ",steps, "    a,rs =",ia,ir
             print "agent=", agent.name, " roomset=",roomset.name 
             
             db = agent.solve_room_set(roomset,room_time_limit)
