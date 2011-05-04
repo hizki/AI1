@@ -5,7 +5,6 @@ Created on Apr 30, 2011
 @author: inesmeya
 """
 import pylab as P
-
     
 def plot_result(result,title=None, label=None, filename=None):
     ''' Plots graph for result

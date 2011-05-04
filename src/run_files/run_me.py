@@ -10,7 +10,7 @@ sys.path.append("..")
 from utils import psave
 from time import strftime
 
-
+def run_tests(mes_functions, number_of_rooms,  room_limit):
 def run_tests(mes_functions, number_of_rooms,  room_limit):
     ''' Run tests and save it to files
     @param mes_functions: [mesure function1,...]
@@ -31,7 +31,7 @@ def run_tests(mes_functions, number_of_rooms,  room_limit):
     for mf in mes_functions:
         test_filename = strftime("%Y-%m-%d_at_%H-%M_") + mf.__name__ + ".pck"
         path= os.path.join(base, test_filename )
-        dbs = mf(number_of_rooms,room_limit)
+        dbs = mf(number_of_rooms, room_limit)
         print "saved:", path
         psave(dbs,path)
         

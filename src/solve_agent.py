@@ -1,13 +1,8 @@
 from problem_agent import ProblemAgent
-from search.best_first import BestFirstGraphSearch
-import rooms
 import heuristics
 import time
-from search.beam_search import BeamSearch
-from search.dijkstra import Dijkstra
-from search.astar import AStar, IterativeDeepeningAStar
-import room_problems
-from search.anytime_beam_search import AnytimeBeamSearch
+from anytime_beam_search import AnytimeBeamSearch
+import problems
 
 class SolveAgent(ProblemAgent):
     def __init__(self):
@@ -21,7 +16,7 @@ class SolveAgent(ProblemAgent):
         return self.algo.find(problem_state, self.heuristic, time_limit)
 
 #problem = room_problems.all_static_rooms['linear_test']
-problem = rooms.randomRoom2((10,12), (10,12), (3,4), (3,4), (10,15), (1,2), (6,10), 4)
+problem = problems.randomRoom2((10,12), (10,12), (3,4), (3,4), (10,15), (1,2), (6,10), 4)
 #problem = rooms.randomRoom(9, 9, 6, 15, 20, 3)  very interesting room
 #problem = rooms.complexRoom2()
 
