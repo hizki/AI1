@@ -23,6 +23,9 @@ class LimitedTimeAStar (SearchAlgorithm):
     It may also take a maximum depth at which to stop, if needed.
     '''
 
+    def name(self):
+        return "LimitedTimeAStar"
+
     def __init__(self, max_depth=infinity):
         '''
         Constructs the A* search.
