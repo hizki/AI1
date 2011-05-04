@@ -69,7 +69,7 @@ def main():
         return
     
     rooms_count = 100
-    room_limit = 20.0
+    room_limit = 1200.0
     
     run_me.run_tests(mes_funs, rooms_count, room_limit)
     
