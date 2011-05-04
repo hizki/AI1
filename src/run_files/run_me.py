@@ -5,8 +5,11 @@ Created on May 4, 2011
 @author: inesmeya
 """
 import os
+import sys
+sys.path.append("..")
 from utils import psave
 from time import strftime
+
 
 def run_tests(mes_functions, number_of_rooms,  room_limit):
     ''' Run tests and save it to files
