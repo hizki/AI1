@@ -19,7 +19,12 @@ class SolveAgentH(ProblemAgent):
         return self.heuristic
 
     def solve(self, problem_state, time_limit):
+        (s, all_s) = self.algo.find(problem_state, self.heuristic)
+        return s
+    
+    def solve2(self, problem_state, time_limit):
         return self.algo.find(problem_state, self.heuristic)
+        
     
 
 
