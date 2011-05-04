@@ -6,7 +6,7 @@ Created on May 4, 2011
 """
 import heuristics
 from search.anytime_beam_search import AnytimeBeamSearch
-from meas_beam import TestAgent, ameasure
+from measure_core import TestAgent, ameasure
 import c_roomsets
 from search.anytime_best_first import AnytimeBestFirstGraphSearch
 
@@ -38,6 +38,8 @@ def beam(count,room_time_limit):
 
 
 def best_first(count,room_time_limit):
+    ''' @param count: number of rooms
+    ''' 
     #beam parametres:
     depths = [10,80,250,400]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
