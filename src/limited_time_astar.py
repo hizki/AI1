@@ -14,7 +14,7 @@
 
 from search.utils import sys, infinity, PriorityQueue
 from search.algorithm import SearchAlgorithm
-import time
+from time import time
 from search.graph import Node
 
 class LimitedTimeAStar (SearchAlgorithm):
@@ -22,6 +22,9 @@ class LimitedTimeAStar (SearchAlgorithm):
     Implementation of the A* search algorithm for the Problem.
     It may also take a maximum depth at which to stop, if needed.
     '''
+
+    def name(self):
+        return "LimitedTimeAStar"
 
     def __init__(self, max_depth=infinity):
         '''
@@ -52,7 +55,7 @@ class LimitedTimeAStar (SearchAlgorithm):
         end_time = start_time + time_limit
         
         # Use a graph search with a minimum priority queue to conduct the search.
-        open_states = self.container_generator()
+        open_states = queue_generator()
         closed_states = {}
         
         solution = None
@@ -72,7 +75,7 @@ class LimitedTimeAStar (SearchAlgorithm):
                 closed_states[node.state] = node.path_cost
                 open_states.extend(node.expand())
 
-        return solution
+        return (solution,[])
 
 class IterativeDeepeningAStar (SearchAlgorithm):
     '''

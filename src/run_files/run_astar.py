@@ -13,7 +13,7 @@ def easy_astar(count,room_time_limit):
     #------------------ Create Agents ------------------            
     agent_list = []
     for h in heuristic_s:
-            agent = TestAgent(LimitedTimeAStar, h)
+            agent = TestAgent(LimitedTimeAStar(), h)
             agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
@@ -31,7 +31,7 @@ def mild_astar(count,room_time_limit):
     #------------------ Create Agents ------------------            
     agent_list = []
     for h in heuristic_s:
-            agent = TestAgent(LimitedTimeAStar, h)
+            agent = TestAgent(LimitedTimeAStar(), h)
             agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
@@ -48,7 +48,7 @@ def heavy_astar(count,room_time_limit):
     #------------------ Create Agents ------------------            
     agent_list = []
     for h in heuristic_s:
-            agent = TestAgent(LimitedTimeAStar, h)
+            agent = TestAgent(LimitedTimeAStar(), h)
             agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
@@ -57,8 +57,8 @@ def heavy_astar(count,room_time_limit):
     dbs = ameasure(agent_list, roomsets, room_time_limit)
     return dbs
 
-
 def main(test_num):
+    
     if test_num == 1:
         mes_funs =[easy_astar]
     elif test_num == 2:
@@ -74,7 +74,7 @@ def main(test_num):
     run_me.run_tests(mes_funs, rooms_count, room_limit)
         
 def cmain():
-    test_num = sys.argv[1]
+    test_num = int(sys.argv[1])
     main(test_num)
     
 if __name__ == "__main__":
