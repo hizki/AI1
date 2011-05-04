@@ -10,8 +10,11 @@ import sys
 
 host_to_test = {
 'INESMEYA-MOBL2' :('run_astar', [1]),                
-'INESMEYA-MOBL2' : ('run_beam',[]) 
-                 
+'INESMEYA-MOBL2' : ('run_fast',[]) ,
+
+'del15' : ('run_astar',[1]), #easy
+'del14' : ('run_astar',[2]), #midl
+'del14' : ('run_astar',[3]), #heavy                 
 }
 
 

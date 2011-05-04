@@ -35,8 +35,9 @@ class AnytimeBeamSearch (SearchAlgorithm):
         self.grow_func = grow_func
       
     def name(self):
-        return "AnytimeBeam-" + self.beam_width.__str__() + \
-            str(self.grow_func[1]) + str(self.grow_func[0])
+        tmpl = "AnytimeBeam-w{0}-gf{1}"
+        name = tmpl.format(self.beam_width,self.grow_func)
+        return name
         
     def find(self, problem_state, heuristic, time_limit):
         '''
