@@ -74,7 +74,7 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
             if node.state.isGoal(): 
                 solution = node.getPathActions()
                 self.max_depth = node.depth
-                sol_lens.append((time(), len(solution)))
+                sol_lens.append((time() - start_time, len(solution)))
                 continue
 
             if (node.state not in closed_states) or (node.path_cost < closed_states[node.state]):

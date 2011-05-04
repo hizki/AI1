@@ -32,10 +32,11 @@ class AnytimeBeamSearch (SearchAlgorithm):
         self.width_factor = grow_func[0]
         self.linear = (grow_func[1] == "lin") 
         self.max_depth = max_depth
+        self.grow_func = grow_func
       
     def name(self):
         return "AnytimeBeam-" + self.beam_width.__str__() + \
-            self.grow_func[1] + self.grow_func[0].__str__()
+            str(self.grow_func[1]) + str(self.grow_func[0])
         
     def find(self, problem_state, heuristic, time_limit):
         '''
@@ -82,7 +83,7 @@ class AnytimeBeamSearch (SearchAlgorithm):
                     if solution == None or (solution != None and len(solution) > len(new_solution)):
                         solution = new_solution
                         self.max_depth = node.depth
-                        sol_lens.append((time(), len(solution)))
+                        sol_lens.append((time()-start_time, len(solution)))
                         break
                 
                 if (node.state not in closed_states) or (node.path_cost < closed_states[node.state]):
@@ -92,6 +93,6 @@ class AnytimeBeamSearch (SearchAlgorithm):
             if self.linear:
                 self.beam_width = math.ceil(self.beam_width + self.width_factor)
             else:
-                self.beam_width = math.ceil(self.beam_width * self.width_factor)
+                self.beam_width = math.ceil(float(self.beam_width) * float(self.width_factor))
                 
         return (solution, sol_lens)

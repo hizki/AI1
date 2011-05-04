@@ -1,5 +1,5 @@
 from search.algorithm import Heuristic
-import obstacles
+#import obstacles
 import math
  
 class ExampleHeuristic(Heuristic):
@@ -199,7 +199,7 @@ def select(test, list):
     return selected
   
   
-class LinearAdmisibleHeuristic(Heuristic):
+class LinearHeuristic(Heuristic):
     def name(self):
         return "LinearHeuristic"
     
@@ -375,7 +375,7 @@ class ObstacleHeuristic(PowerHeuristic):
         # my_rect =(a,b)
         
             
-    
+    '''
     def evaluate(self, state):
         # save locations for analisys in distance method
         # recalculate if changes
@@ -385,3 +385,4 @@ class ObstacleHeuristic(PowerHeuristic):
 
         # use PowerHeuristic evaluate
         PowerHeuristic.evaluate(self, state)
+'''
