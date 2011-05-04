@@ -11,7 +11,6 @@ from utils import psave
 from time import strftime
 
 def run_tests(mes_functions, number_of_rooms,  room_limit):
-def run_tests(mes_functions, number_of_rooms,  room_limit):
     ''' Run tests and save it to files
     @param mes_functions: [mesure function1,...]
        when  measure function1 is (number_of_rooms,room_limit) => db of results
