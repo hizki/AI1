@@ -58,7 +58,7 @@ def heavy_astar(count,room_time_limit):
     return dbs
 
 def main():
-    test_num = sys.argv[1]
+    test_num = int(sys.argv[1])
     if test_num == 1:
         mes_funs =[easy_astar]
     elif test_num == 2:
