@@ -13,7 +13,7 @@ def easy_astar(count,room_time_limit):
     #------------------ Create Agents ------------------            
     agent_list = []
     for h in heuristic_s:
-            agent = TestAgent(LimitedTimeAStar, h)
+            agent = TestAgent(LimitedTimeAStar(), h)
             agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
@@ -31,7 +31,7 @@ def mild_astar(count,room_time_limit):
     #------------------ Create Agents ------------------            
     agent_list = []
     for h in heuristic_s:
-            agent = TestAgent(LimitedTimeAStar, h)
+            agent = TestAgent(LimitedTimeAStar(), h)
             agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
