@@ -23,6 +23,21 @@ def easy_roomset(count):
     rs.create_rooms(init_seed, count, width_t, height_t, robots_t, dirt_piles_t, simple_obs_t, complex_obs_t, complex_obs_size_t)    
     return rs
 
+def mild_roomset(count):
+    init_seed = 2332
+    
+    width_t=(9,12)
+    height_t=(9,12)
+    robots_t=(3,4)
+    dirt_piles_t=(5,10)
+    simple_obs_t=(5,10)
+    complex_obs_t=(2,3)
+    complex_obs_size_t=(6,9)
+
+    rs = RoomSet("mild_roomset")
+    rs.create_rooms(init_seed, count, width_t, height_t, robots_t, dirt_piles_t, simple_obs_t, complex_obs_t, complex_obs_size_t)    
+    return rs
+
 
 def heavy_roomset(count):
     init_seed = 31013
