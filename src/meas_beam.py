@@ -116,7 +116,8 @@ def ameasure(agents, roomsets,room_time_limit):
     print "roomsets=", nrs
     steps = na*nrs
     print "steps=",steps
-    est = float(room_time_limit*steps*sum([len(roomset.rooms) for roomset in  roomsets]))
+    nrooms = sum([len(roomset.rooms) for roomset in  roomsets])
+    est = float(room_time_limit*nrooms*na)
     print "Estimated time:", est/3600.0, "hours","  or  min:",  est/60.0
     print "============="
     

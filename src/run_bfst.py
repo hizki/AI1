@@ -12,8 +12,8 @@ import os
 def main():
     base = os.getcwd()
     mes_funs =[best_first]
-    rooms_count= 20
-    room_limit = 40.0
+    rooms_count= 10
+    room_limit = 50.0
     
     print "Start Running"
     print "============="

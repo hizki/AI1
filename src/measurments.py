@@ -14,7 +14,7 @@ from search.anytime_best_first import AnytimeBestFirstGraphSearch
 def beam(count,room_time_limit):
     #beam parametres:
     
-    init_width_domain = [2,4,7,12]
+    init_width_domain = [2,6,12]
     growf_domain =[ (1.1,'exp'),(1.3,'exp'),(2,'lin'),(4,'lin') ]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
@@ -39,7 +39,7 @@ def beam(count,room_time_limit):
 
 def best_first(count,room_time_limit):
     #beam parametres:
-    depths = [10,50,100,200,300,400]
+    depths = [10,80,250,400]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
     #------------------ Create Agents ------------------            

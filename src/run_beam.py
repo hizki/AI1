@@ -12,7 +12,7 @@ import os
 def main():
     base = os.getcwd()
     mes_funs =[beam]
-    rooms_count = 20
+    rooms_count = 10
     room_limit  = 40.0
     
     print "Start Running"
