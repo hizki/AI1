@@ -17,7 +17,11 @@ def run_tests(mes_functions, number_of_rooms,  room_limit):
            {start_time}{test functoin name}
     '''
     
-    base = os.getcwd()
+    result_folder = "results"
+    base = os.path.join(os.getcwd(),result_folder)
+    if not os.path.exists(base):
+        os.mkdir(base)
+        
     print "Start Running"
     print "============="
     
