@@ -239,7 +239,7 @@ def randomRoom2(width_t, height_t, robots_t, dirt_piles_t, simple_obs_t,
 
     room = MultiRobotState(x, y, tuple(robots),
        frozenset(dirt_locations), frozenset(obstacle_locations))
-    room_id = RoomID(x, y, r, o, seed)
+    room_id = RoomID(x, y, r, d, o, seed)
     return (room_id, room)
 
 
