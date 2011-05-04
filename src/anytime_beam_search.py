@@ -8,7 +8,7 @@
 # search algorithms:
 # - AnytimeBeamSearch
 
-from algorithm import SearchAlgorithm
+from search.algorithm import SearchAlgorithm
 from time import time
 from search.graph import Node
 from search.utils import infinity, LimitedPriorityQueue

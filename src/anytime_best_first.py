@@ -8,7 +8,7 @@
 # search algorithms:
 # - AnytimeBestFirstGraphSearch
 
-from algorithm import SearchAlgorithm
+from search.algorithm import SearchAlgorithm
 from search.utils import infinity, PriorityQueue
 from time import time
 from search.graph import Node

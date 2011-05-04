@@ -4,9 +4,34 @@ Created on May 4, 2011
 
 @author: inesmeya
 """
-from measurments import  best_first
 import run_me
+import heuristics
+from measure_core import TestAgent, ameasure
+import c_roomsets
+from anytime_best_first import AnytimeBestFirstGraphSearch
 
+def best_first(count,room_time_limit):
+    ''' @param count: number of rooms
+    ''' 
+    #beam parametres:
+    depths = [10,80,250,400]
+    heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
+        
+    #------------------ Create Agents ------------------            
+    agent_list = []
+    for h in heuristic_s:
+            for depth in depths: 
+                algorithm = AnytimeBestFirstGraphSearch(depth)
+                agent =     TestAgent(algorithm, h)
+                agent_list.append(agent)
+                
+    #---------------- Create Roomsets --------------------
+    roomsets = [c_roomsets.easy_roomset(count),
+                c_roomsets.heavy_roomset(count),
+                c_roomsets.static_rooms() ]
+    
+    dbs = ameasure(agent_list, roomsets, room_time_limit)
+    return dbs
 
 def main():
     mes_funs =[best_first]
