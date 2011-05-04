@@ -144,8 +144,6 @@ class GraphSearch (SearchAlgorithm):
         @param problem_state: The initial state to start the search from.
         @param heuristic: Ignored.
         '''
-        start = time.clock() #time support
-        
         open_states = self.container_generator()
         closed_states = {}
         
