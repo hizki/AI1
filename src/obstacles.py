@@ -75,6 +75,16 @@ def get_obstaclesMap(room):
     r = size_dfs(h)
     return r    
 
+
+def test_dfs():
+    room = rooms.randomRoom(8,8,1,1,30,1)
+    print room
+
+    point_list1 = list( room.obstacle_locations )
+    h = list_of_points_to_adj_hash(point_list1)
+    print h
+    
+    
 def test_randomGen():
     room = rooms.randomRoom(8,8,1,1,30,1)
     print room
@@ -109,7 +119,7 @@ def TestMe():
 
 
 def main():
-    TestMe()
+    test_dfs()
 
 if __name__ == '__main__':
     main()
