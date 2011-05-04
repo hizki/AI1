@@ -16,6 +16,7 @@ from random import Random
 from search.anytime_beam_search import AnytimeBeamSearch
 from utils import  psave
 from room_problems import all_static_rooms
+from check_room import is_room_solvable
 
 
 class ProblemSetSolution():
@@ -46,7 +47,7 @@ class RoomSet():
         self.name = name
         
     def create_rooms(self, init_seed, count, width_t, height_t, robots_t, dirt_piles_t, simple_obs_t, complex_obs_t, complex_obs_size_t, ):    
-        
+        print "Creating Rooms for", init_seed
         rnd = Random(init_seed)
         generated = 0
         tries = 0
@@ -57,8 +58,11 @@ class RoomSet():
             if room_tup == None:
                 continue
             room_id, room = room_tup
+            if not is_room_solvable(room):
+                continue
             self.rooms[room_id] = room
             generated += 1
+        print "Finished Creating Rooms"
              
     def get_rooms(self):
         return self.rooms    
@@ -102,21 +106,40 @@ def ameasure(agents, roomsets,room_time_limit):
     @param outfolder: whitOUT slash at the end
     @return: [ ProblemSetSolution 1,... ]
     '''
-    
+    start = time.clock()
     dbs = []
+    na  = len(agents)
+    nrs = len(roomsets)
     print "Start measure"
+    print "-------------"
+    print "agents=", na
+    print "roomsets=", nrs
+    steps = na*nrs
+    print "steps=",steps
+    est = float(room_time_limit*steps*sum([len(roomset.rooms) for roomset in  roomsets]))
+    print "Estimated time:", est/3600.0, "hours","  or  min:",  est/60.0
     print "============="
+    
+    ia = 0
+    step =0
     for  agent in agents:
+        ir = 0
         for roomset in  roomsets:
+            print "step=",step, "    a,r=",ia,ir
             print "agent=", agent.name, " roomset=",roomset.name 
-            print        
+            
             db = agent.solve_room_set(roomset,room_time_limit)
             dbs.append(db)
-            #filename = agent.name + "_of_" + roomset.name + ".pck"
-            #path = os.path.join(outfolder,filename)
-            print db
-            print "------"
-    print "End measure"
+            
+            running_time = time.clock() - start
+            est -= running_time
+            start = time.clock()
+            print "runned:",running_time, "  rest minutes:",est/60.0
+            print  
+            ir += 1
+            step += 1   
+        ia +=1  
+    print "=== End measure==="
     return dbs
      
 
