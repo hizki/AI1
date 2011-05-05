@@ -25,7 +25,6 @@ def easy_roomset(count, seed):
 
 def mild_roomset(count, seed):
     init_seed = seed
-    
     width_t=(9,12)
     height_t=(9,12)
     robots_t=(3,4)

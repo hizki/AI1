@@ -11,7 +11,7 @@ from measure_core import TestAgent, ameasure
 import c_roomsets
 import sys
 
-def beam_cross(count,room_time_limit):
+def beam_cross(count,room_time_limit, seed):
     #beam parametres:
     
     init_width_domain = [2,6,12]
@@ -28,15 +28,15 @@ def beam_cross(count,room_time_limit):
                 agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
-    roomsets = [c_roomsets.easy_roomset(count),
-                c_roomsets.mild_roomset(count),
-                c_roomsets.heavy_roomset(count),
+    roomsets = [c_roomsets.easy_roomset(count, seed),
+                c_roomsets.mild_roomset(count, seed),
+                c_roomsets.heavy_roomset(count, seed),
                 c_roomsets.static_rooms() ]
     #---------------- measure --------------------
-    dbs = ameasure(agent_list, roomsets, room_time_limit)
+    dbs = ameasure(agent_list, roomsets, room_time_limit, seed)
     return dbs
 
-def beam_width(count,room_time_limit):
+def beam_width(count,room_time_limit, seed):
     #beam parametres:
     
     init_width_domain = [2,4,6,8,10,12]
@@ -53,15 +53,15 @@ def beam_width(count,room_time_limit):
                 agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
-    roomsets = [c_roomsets.easy_roomset(count),
-                c_roomsets.mild_roomset(count),
-                c_roomsets.heavy_roomset(count),
+    roomsets = [c_roomsets.easy_roomset(count, seed),
+                c_roomsets.mild_roomset(count, seed),
+                c_roomsets.heavy_roomset(count, seed),
                 c_roomsets.static_rooms() ]
     #---------------- measure --------------------
     dbs = ameasure(agent_list, roomsets, room_time_limit)
     return dbs
 
-def beam_exp(count,room_time_limit):
+def beam_exp(count,room_time_limit, seed):
     #beam parametres:
     
     init_width_domain = [4,12]
@@ -78,15 +78,15 @@ def beam_exp(count,room_time_limit):
                 agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
-    roomsets = [c_roomsets.easy_roomset(count),
-                c_roomsets.mild_roomset(count),
-                c_roomsets.heavy_roomset(count),
+    roomsets = [c_roomsets.easy_roomset(count, seed),
+                c_roomsets.mild_roomset(count, seed),
+                c_roomsets.heavy_roomset(count, seed),
                 c_roomsets.static_rooms() ]
     #---------------- measure --------------------
     dbs = ameasure(agent_list, roomsets, room_time_limit)
     return dbs
 
-def beam_lin(count,room_time_limit):
+def beam_lin(count,room_time_limit, seed):
     #beam parametres:
     
     init_width_domain = [4,12]
@@ -103,9 +103,9 @@ def beam_lin(count,room_time_limit):
                 agent_list.append(agent)
                 
     #---------------- Create Roomsets --------------------
-    roomsets = [c_roomsets.easy_roomset(count),
-                c_roomsets.mild_roomset(count),
-                c_roomsets.heavy_roomset(count),
+    roomsets = [c_roomsets.easy_roomset(count, seed),
+                c_roomsets.mild_roomset(count, seed),
+                c_roomsets.heavy_roomset(count, seed),
                 c_roomsets.static_rooms() ]
     #---------------- measure --------------------
     dbs = ameasure(agent_list, roomsets, room_time_limit)
@@ -117,10 +117,12 @@ def main():
  
 def cmain(param):
     mes_funs =[globals()[param]]
-    rooms_count= 100
-    room_limit = 60.0
-   
-    run_me.run_tests(mes_funs, rooms_count, room_limit)
+    rooms_count = 100
+    room_limit = 50.0
+
+    it = rooms_count / 20
+    for i in range(it):
+        run_me.run_tests(mes_funs, rooms_count, room_limit, i)
         
 if __name__ == "__main__":
     main()
