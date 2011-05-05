@@ -28,7 +28,7 @@ def run_tests(mes_functions, number_of_rooms,  room_limit, seed = 0):
     print "============="
     
     for mf in mes_functions:
-        test_filename = strftime("%Y-%m-%d_at_%H-%M_") + mf.__name__ + ".pck"
+        test_filename = strftime("%Y-%m-%d_at_%H-%M_") + mf.__name__ + str(seed) + ".pck"
         path= os.path.join(base, test_filename )
         dbs = mf(number_of_rooms, room_limit, seed)
         print "saved:", path

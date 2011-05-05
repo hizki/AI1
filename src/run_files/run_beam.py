@@ -39,7 +39,7 @@ def beam_cross(count,room_time_limit, seed):
 def beam_width(count,room_time_limit, seed):
     #beam parametres:
     
-    init_width_domain = [2,4,6,8,10,12]
+    init_width_domain = [2,6,9,12]
     growf_domain =[ (1.3,'exp') ]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
@@ -64,8 +64,8 @@ def beam_width(count,room_time_limit, seed):
 def beam_exp(count,room_time_limit, seed):
     #beam parametres:
     
-    init_width_domain = [4,12]
-    growf_domain =[ (1.1,'exp'),(1.3,'exp'),(1.5,'exp'),(1.7,'exp'),(1.9,'exp') ]
+    init_width_domain = [4]
+    growf_domain =[ (1.1,'exp'),(1.3,'exp'),(1.5,'exp'),(1.7,'exp')]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
     #------------------ Create Agents ------------------            
@@ -89,8 +89,8 @@ def beam_exp(count,room_time_limit, seed):
 def beam_lin(count,room_time_limit, seed):
     #beam parametres:
     
-    init_width_domain = [4,12]
-    growf_domain =[ (1,'lin'),(2,'lin'),(4,'lin'),(8,'lin'),(16,'lin') ]
+    init_width_domain = [4]
+    growf_domain =[ (2,'lin'),(4,'lin'),(8,'lin'),(16,'lin') ]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
     #------------------ Create Agents ------------------            
@@ -117,12 +117,12 @@ def main():
  
 def cmain(param):
     mes_funs =[globals()[param]]
-    rooms_count = 100
-    room_limit = 50.0
+    rooms_per_set = 4
+    num_sets = 12
+    room_limit = 40.0
 
-    it = rooms_count / 10
-    for i in range(it):
-        run_me.run_tests(mes_funs, rooms_count, room_limit, i)
+    for i in range(num_sets):
+        run_me.run_tests(mes_funs, rooms_per_set, room_limit, i)
         
 if __name__ == "__main__":
     main()

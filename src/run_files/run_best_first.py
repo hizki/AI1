@@ -41,13 +41,13 @@ def main():
 
  
 def cmain(param):
-    mes_funs = [globals()[param]]
-    rooms_count= 100
-    room_limit = 50.0
+    mes_funs =[globals()[param]]
+    rooms_per_set = 4
+    num_sets = 12
+    room_limit = 40.0
 
-    it = rooms_count / 10
-    for i in range(it): 
-        run_me.run_tests(mes_funs, rooms_count, room_limit, i)
-
+    for i in range(num_sets):
+        run_me.run_tests(mes_funs, rooms_per_set, room_limit, i)
+        
 if __name__ == "__main__":
     main()
