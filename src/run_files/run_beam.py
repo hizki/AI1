@@ -120,7 +120,7 @@ def cmain(param):
     rooms_count = 100
     room_limit = 50.0
 
-    it = rooms_count / 20
+    it = rooms_count / 10
     for i in range(it):
         run_me.run_tests(mes_funs, rooms_count, room_limit, i)
         

@@ -58,26 +58,17 @@ def heavy_astar(count,room_time_limit, seed):
     return dbs
 
 def main():
-    test_num = int(sys.argv[1])
-    cmain(test_num)
-        
+    param = sys.argv[1]
+    cmain(param)
 
-def cmain(test_num):
-    if test_num == 1:
-        mes_funs =[easy_astar]
-    elif test_num == 2:
-        mes_funs =[mild_astar]
-    elif test_num == 3:
-        mes_funs =[heavy_astar]
-    else:
-        return
-    
+def cmain(param):
+    mes_funs = [globals()[param]]
     rooms_count = 100
     room_limit = 1200.0
 
-    it = rooms_count / 20
+    it = rooms_count / 10
     for i in range(it):
         run_me.run_tests(mes_funs, rooms_count, room_limit, i)
         
 if __name__ == "__main__":
-    cmain()
+    main()
