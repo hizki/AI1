@@ -86,7 +86,7 @@ def cmain(param):
     mes_funs =[globals()[param]]
     rooms_per_set = 4
     num_sets = 12
-    room_limit = 3000.0
+    room_limit = 300.0
 
     for i in range(num_sets):
         run_me.run_tests(mes_funs, rooms_per_set, room_limit, i)
