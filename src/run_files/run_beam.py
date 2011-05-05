@@ -111,16 +111,16 @@ def beam_lin(count,room_time_limit):
     dbs = ameasure(agent_list, roomsets, room_time_limit)
     return dbs
 
-def main(param):
+def main():
+    param = sys.argv[1]
+    cmain(param)
+ 
+def cmain(param):
     mes_funs =[globals()[param]]
     rooms_count= 100
     room_limit = 60.0
-    
+   
     run_me.run_tests(mes_funs, rooms_count, room_limit)
-
-def cmain():
-    param = sys.argv[1]
-    main(param)
         
 if __name__ == "__main__":
-    cmain()
+    main()

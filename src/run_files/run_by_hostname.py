@@ -22,7 +22,7 @@ def main():
     host = socket.gethostname()
     module_name, param_list = host_to_test[host]
     module = __import__(module_name)
-    module.main(*param_list)
+    module.cmain(*param_list)
     print module_name, param_list
 
 if __name__ == "__main__":

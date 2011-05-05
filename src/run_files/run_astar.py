@@ -57,8 +57,12 @@ def heavy_astar(count,room_time_limit):
     dbs = ameasure(agent_list, roomsets, room_time_limit)
     return dbs
 
-def main(test_num):
-    
+def main():
+    test_num = int(sys.argv[1])
+    cmain(test_num)
+        
+
+def cmain(test_num):
     if test_num == 1:
         mes_funs =[easy_astar]
     elif test_num == 2:
@@ -73,9 +77,5 @@ def main(test_num):
     
     run_me.run_tests(mes_funs, rooms_count, room_limit)
         
-def cmain():
-    test_num = int(sys.argv[1])
-    main(test_num)
-    
 if __name__ == "__main__":
     cmain()

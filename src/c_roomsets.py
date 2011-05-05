@@ -8,8 +8,8 @@ from measure_core import RoomSet
 from room_problems import all_static_rooms
 
 
-def easy_roomset(count):
-    init_seed = 2332
+def easy_roomset(count, seed):
+    init_seed = seed
     
     width_t=(7,10)
     height_t=(7,10)
@@ -23,8 +23,8 @@ def easy_roomset(count):
     rs.create_rooms(init_seed, count, width_t, height_t, robots_t, dirt_piles_t, simple_obs_t, complex_obs_t, complex_obs_size_t)    
     return rs
 
-def mild_roomset(count):
-    init_seed = 2332
+def mild_roomset(count, seed):
+    init_seed = seed
     
     width_t=(9,12)
     height_t=(9,12)
@@ -39,8 +39,8 @@ def mild_roomset(count):
     return rs
 
 
-def heavy_roomset(count):
-    init_seed = 31013
+def heavy_roomset(count, seed):
+    init_seed = seed
     
     width_t=(10,13)
     height_t=(10,13)
