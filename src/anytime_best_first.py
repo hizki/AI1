@@ -89,9 +89,9 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
             if (node.state not in closed_states) or (node.path_cost < closed_states[node.state]):
                 closed_states[node.state] = node.path_cost
                 open_states.extend(node.expand())
-        print "Found solution", (sol_lens,solution)
-        print "runtime=", clock() - start_time
-        print "len(open_states): ", len(open_states)
+        #print "Found solution", (sol_lens,solution)
+        #print "runtime=", clock() - start_time
+        #print "len(open_states): ", len(open_states)
         
         #print "runtime=" start_time: ",start_time, "time(): ",time(), "end_time", end_time
         return (solution,sol_lens)

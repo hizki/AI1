@@ -238,7 +238,22 @@ def new_test():
     print_list(r)
     
     
-new_test()    
+
+def new_test2():
+    p = PssAnalyzer()
+    d =r"C:\Users\inesmeya\Documents\PythonxyWS\HW1\AI1\src\run_files\results\2011-05-06_at_19-06_best_first_depth1.pck"
+    p.load(d)
+    #folder = os.path.join(os.getcwd(),"run_files")
+    #folder = os.path.join(folder,"uniqes")
+    
+    #p.appent_pattern(folder, ".*best.*")
+    r = p.solved_percent_ext()
+    
+    print_list(r)
+    
+    
+    
+new_test2()    
 #test_select()
 #test_rooms_distr()
 #t()
