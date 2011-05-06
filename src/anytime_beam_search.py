@@ -9,7 +9,7 @@
 # - AnytimeBeamSearch
 
 from search.algorithm import SearchAlgorithm
-from time import time
+from time import clock
 from search.graph import Node
 from search.utils import infinity, LimitedPriorityQueue
 import math
@@ -33,6 +33,8 @@ class AnytimeBeamSearch (SearchAlgorithm):
         self.linear = (grow_func[1] == "lin") 
         self.max_depth = max_depth
         self.grow_func = grow_func
+        #save max_depth
+        self.init_max_depth = max_depth
       
     def name(self):
         tmpl = "AnytimeBeam-w{0}-gf{1}"
@@ -50,6 +52,9 @@ class AnytimeBeamSearch (SearchAlgorithm):
         
         returns (solution,[(time,sol_len)]) or (None,[]) if none found
         '''
+        #first restore max_depth parameter
+        self.max_depth = self.init_max_depth
+        
         # This is the node evaluation function for the given heuristic.
         def evaluator(node):
             return heuristic.evaluate(node.state)
@@ -60,19 +65,19 @@ class AnytimeBeamSearch (SearchAlgorithm):
 
         # Use a graph search with a minimum priority queue to conduct the search.
 
-        start_time = time()
+        start_time = clock()
         end_time = start_time + time_limit
 
         solution = None
         sol_lens = []
         
-        while time() < end_time:
+        while clock() < end_time:
         
             open_states = queue_generator()
             closed_states = {}
             
             open_states.append(Node(problem_state))
-            while time() < end_time and open_states and len(open_states) > 0:
+            while clock() < end_time and open_states and len(open_states) > 0:
                 
                 node = open_states.pop()
                 
@@ -84,7 +89,7 @@ class AnytimeBeamSearch (SearchAlgorithm):
                     if solution == None or (solution != None and len(solution) > len(new_solution)):
                         solution = new_solution
                         self.max_depth = node.depth
-                        sol_lens.append((time()-start_time, len(solution)))
+                        sol_lens.append((clock()-start_time, len(solution)))
                         break
                 
                 if (node.state not in closed_states) or (node.path_cost < closed_states[node.state]):
@@ -95,5 +100,8 @@ class AnytimeBeamSearch (SearchAlgorithm):
                 self.beam_width = math.ceil(self.beam_width + self.width_factor)
             else:
                 self.beam_width = math.ceil(float(self.beam_width) * float(self.width_factor))
-                
+        
+        print "Found solution", (solution,sol_lens)
+        print "runtime=", clock() - start_time
+        print "len(open_states): ", len(open_states)        
         return (solution, sol_lens)

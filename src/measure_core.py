@@ -86,6 +86,7 @@ class TestAgent():
         pssDB = ProblemSetSolution(self, roomset)
         rooms = roomset.get_rooms()
         for room_id, room in rooms.items():
+            print "room_id: ", room_id
             room_sol = self.solve3(room,room_time_limit)
             pssDB.add_room_solution(room_id,room_sol)
         return pssDB
