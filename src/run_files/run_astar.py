@@ -6,7 +6,6 @@ import c_roomsets
 import sys
 
 def all_astar(count,room_time_limit, seed):
-    #beam parametres:
     
     heuristic_s = [heuristics.PowerHeuristic2()]
         
@@ -19,15 +18,13 @@ def all_astar(count,room_time_limit, seed):
     #---------------- Create Roomsets --------------------
     roomsets = [c_roomsets.easy_roomset(count, seed),
                 c_roomsets.mild_roomset(count, seed),
-                c_roomsets.heavy_roomset(count, seed),
-                c_roomsets.static_rooms() ]
+                c_roomsets.heavy_roomset(count, seed) ]
     #---------------- measure --------------------
     dbs = ameasure(agent_list, roomsets, room_time_limit)
     return dbs
 
 
 def easy_astar(count,room_time_limit, seed):
-    #beam parametres:
     
     heuristic_s = [heuristics.PowerHeuristic2()]
         
@@ -45,7 +42,6 @@ def easy_astar(count,room_time_limit, seed):
     return dbs
 
 def mild_astar(count,room_time_limit, seed):
-    #beam parametres:
     
     heuristic_s = [heuristics.PowerHeuristic2()]
         
@@ -62,7 +58,6 @@ def mild_astar(count,room_time_limit, seed):
     return dbs
 
 def heavy_astar(count,room_time_limit, seed):
-    #beam parametres:
     
     heuristic_s = [heuristics.PowerHeuristic2()]
         
@@ -84,9 +79,9 @@ def main():
 
 def cmain(param):
     mes_funs =[globals()[param]]
-    rooms_per_set = 4
-    num_sets = 12
-    room_limit = 300.0
+    rooms_per_set = 5
+    num_sets = 10
+    room_limit = 600.0
 
     for i in range(num_sets):
         run_me.run_tests(mes_funs, rooms_per_set, room_limit, i)

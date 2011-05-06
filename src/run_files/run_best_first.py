@@ -14,8 +14,8 @@ import sys
 def best_first_depth(count,room_time_limit, seed):
     ''' @param count: number of rooms
     ''' 
-    #beam parametres:
-    depths = [10,80,250,400]
+    #best first parameters:
+    depths = [10,80,150,250,400]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
     #------------------ Create Agents ------------------            
@@ -29,8 +29,7 @@ def best_first_depth(count,room_time_limit, seed):
     #---------------- Create Roomsets --------------------
     roomsets = [c_roomsets.easy_roomset(count, seed),
                 c_roomsets.mild_roomset(count, seed),
-                c_roomsets.heavy_roomset(count, seed),
-                c_roomsets.static_rooms() ]
+                c_roomsets.heavy_roomset(count, seed) ]
     
     dbs = ameasure(agent_list, roomsets, room_time_limit)
     return dbs
@@ -42,8 +41,8 @@ def main():
  
 def cmain(param):
     mes_funs =[globals()[param]]
-    rooms_per_set = 4
-    num_sets = 12
+    rooms_per_set = 5
+    num_sets = 10
     room_limit = 40.0
 
     for i in range(num_sets):
