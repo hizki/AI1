@@ -10,7 +10,8 @@
 
 from search.algorithm import SearchAlgorithm
 from search.utils import infinity, PriorityQueue
-from time import time
+#from time import time
+from time import clock
 from search.graph import Node
 
 class AnytimeBestFirstGraphSearch (SearchAlgorithm):
@@ -28,6 +29,7 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         the goal state.
         '''
         self.max_depth = max_depth
+        self.init_max_depth = max_depth
 
     def name(self):
         return "AnytimeBest-d" + self.max_depth.__str__()
@@ -46,6 +48,9 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         
         returns (solution,[(time,sol_len)]) or (None,[]) if none found
         '''
+        #first restore max_depth parameter
+        self.max_depth = self.init_max_depth
+        
         # This is the node evaluation function for the given heuristic.
         def evaluator(node):
             return heuristic.evaluate(node.state)
@@ -55,7 +60,7 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
             return PriorityQueue(evaluator)
 
         # Use a graph search with a minimum priority queue to conduct the search.
-        start_time = time()
+        start_time = clock()
         end_time = start_time + time_limit
         
         solution = None
@@ -65,20 +70,28 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         closed_states = {}
 
         open_states.append(Node(problem_state))
-        while open_states and len(open_states) > 0 and time() < end_time:
+        while open_states and len(open_states) > 0 and clock() < end_time:
             node = open_states.pop()
 
             if node.depth > self.max_depth:
                 continue
 
             if node.state.isGoal(): 
-                solution = node.getPathActions()
-                self.max_depth = node.depth
-                sol_lens.append((time() - start_time, len(solution)))
+                new_solution = node.getPathActions()
+                if solution == None or (solution != None and len(solution) > len(new_solution)):
+                    solution = new_solution
+                    self.max_depth = node.depth
+                    cur_runtime = clock() - start_time
+                    sol_lens.append((cur_runtime, len(solution)))
+                    #print "self.max_depth: ", self.max_depth
                 continue
 
             if (node.state not in closed_states) or (node.path_cost < closed_states[node.state]):
                 closed_states[node.state] = node.path_cost
                 open_states.extend(node.expand())
+        #print "Found solution", (sol_lens,solution)
+        #print "runtime=", clock() - start_time
+        #print "len(open_states): ", len(open_states)
         
+        #print "runtime=" start_time: ",start_time, "time(): ",time(), "end_time", end_time
         return (solution,sol_lens)

@@ -1,6 +1,6 @@
 from problem_agent import ProblemAgent
 from search.best_first import BestFirstGraphSearch
-import rooms
+#import rooms
 import heuristics
 import ivan_heuristics
 import time
@@ -34,7 +34,7 @@ def use_h(heuristics, problem, showSolution=False):
     
     agent = SolveAgentH(heuristics)
     start = time.clock()
-    solution = agent.solve(problem,20000)
+    solution = agent.solve2(problem,20000)
     run_time = time.clock() - start
     
     if showSolution:
@@ -45,7 +45,7 @@ def use_h(heuristics, problem, showSolution=False):
             problem.nextState(step)
             print "eval=", h.evaluate(problem)
             print step
-            print problem
+            #print problem
     
     sol_len = -1
     if solution != None: sol_len = len(solution)
@@ -57,17 +57,19 @@ def use_h(heuristics, problem, showSolution=False):
 
 def test_one():
     problem = room_problems.all_static_rooms['split']
-    s2 = use_h(heuristics.LinearAdmisibleHeuristic(),problem)
+    s2 = use_h(heuristics.LinearHeuristic(),problem)
     print s2
     
 def test_two():
     table =[]
-    for problem in room_problems.all_static_rooms.values():
-        s1 = use_h(heuristics.LinearAdmisibleHeuristic(),problem)
+    for pid,problem in room_problems.all_static_rooms.items():
+        
+        s1 = use_h(heuristics.LinearHeuristic(),problem)
         s2 = use_h(heuristics.PowerHeuristic(),problem)
-        table.append((s1,s2))
+        s3 = use_h(heuristics.PowerHeuristic2(),problem)
+        table.append((pid,s1,s2,s3))
     
-    print "sLinear=" " sPower="
+    print "sL sP sP2"
     for row in table:
         print row
 

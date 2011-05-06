@@ -17,8 +17,6 @@ class Test(unittest.TestCase):
         print "solen=", solen
 
 
-    
-
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
