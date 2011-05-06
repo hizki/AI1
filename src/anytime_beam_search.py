@@ -101,7 +101,7 @@ class AnytimeBeamSearch (SearchAlgorithm):
             else:
                 self.beam_width = math.ceil(float(self.beam_width) * float(self.width_factor))
         
-        print "Found solution", (solution,sol_lens)
+        print "Found solution", (sol_lens,solution)
         print "runtime=", clock() - start_time
         print "len(open_states): ", len(open_states)        
         return (solution, sol_lens)

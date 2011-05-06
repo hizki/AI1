@@ -94,20 +94,24 @@ class PowerHeuristic2(Heuristic):
             worst_dirt = dists[0][1]
             
             # x - the distances of all the robots from worst_dirt.
-            x = []
+            ##x = []
+            x = filter(lambda dist:dist[1] == worst_dirt, dists)
             
-            for i in range(len(dists)):
-                if dists[i][1] == worst_dirt:
-                    x.append(dists[i])
+            ##for i in range(len(dists)):
+            ##    if dists[i][1] == worst_dirt:
+            ##        x.append(dists[i])
             
             # add to 'matches' the tuple of dist*dirt*robot that gives the farthest robot
             # it's closest robot.
-            x.sort()
-            matches.append(x[0])
+            ##x.sort()
+            ##matches.append(x[0])
+            matches.append(min(x))
             
             # remove all references to that dirt pile from the dists table.
-            for xi in x:
-                dists.pop(dists.index(xi))
+            ##for xi in x:
+            ##    dists.pop(dists.index(xi))
+                 
+            dists = filter(lambda drow: drow not in x, dists)
             
             # increase the 'done' counter of robot x[0][2]
             # (x[0] - the best dist for the farthest pile, x[0][2] - corresponding the robot).
@@ -119,13 +123,23 @@ class PowerHeuristic2(Heuristic):
         
         # calculate the value of the current state. give the matches different
         # weights by priority. the shortest distances are of higher priority.
-        rank = 0
-        power = len(matches)           
+        
+        ##rank = 0
+        ##power = len(matches)           
+        ##for dist, dirt_loc, robot in matches:
+        ##    rank += pow(dist, power)
+        ##    power -= 1
+        ##   return rank 
+        
+        rank = 0.0
+        power = float(len(matches))           
         for dist, dirt_loc, robot in matches:
-            rank += pow(dist, power)
-            power -= 1
+            rank += math.pow(float(dist), power)
+            power -= 1.0
                
-        return rank    
+        return int(rank)    
+               
+         
 
 class GridHeuristic(Heuristic):
     

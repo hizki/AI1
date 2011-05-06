@@ -5,7 +5,7 @@ Created on Apr 29, 2011
 '''
 from problem_agent import ProblemAgent
 from search.best_first import BestFirstGraphSearch
-import rooms
+
 import heuristics
 import time
 from search.beam_search import BeamSearch

@@ -190,7 +190,7 @@ def test_complex():
     init_seed =2332
     rooms = randomRoomsDict(width_domain, height_domain, robots_domain, dusts_domain, obstacles_domain, count, init_seed)
     #rooms = all_static_rooms
-    beam_width_domain= [i*3 for i in range(1,5)] + [i*10 for i in range(4,10)]
+    beam_width_domain= [i*5 for i in range(1,15)]
     print 'rooms: %d' % len(rooms)
     print 'solvers: %d' % len(beam_width_domain)
     print 'Cycles: %d' % (len(rooms)*len(beam_width_domain))
