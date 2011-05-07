@@ -73,20 +73,24 @@ class PssAnalyzer():
         # calculate number of problems and number of solved problems per agent
         res = {}
         for db in self.dbs:
-            if db.roomset.name.find("static") == -1:
-                continue
+            #if db.roomset.name.find("static") == -1:
+             #   continue
             old_solved, old_tried = res.get(db.name,(0,0))
+            
             tried  = len(db.solutions)
             solved = len([sl for sl,_ in db.solutions.values() if sl != []])
             res[db.name] = (solved + old_solved, tried + old_tried)
+            #print (solved + old_solved, tried + old_tried)
         
         # calculate percent of solved problems
         #print res
         result = []
         for agent_name in res.keys():
             solved, tried  = res[agent_name]
+            #print (solved , tried )
             percent = 100.0 *  solved /  tried 
             result.append((agent_name,percent,tried,solved))
+            
         
         return result        
     def select(self,agent_pattern, roomset_pattern=None):
@@ -241,14 +245,14 @@ def new_test():
 
 def new_test2():
     p = PssAnalyzer()
-    d =r"C:\Users\inesmeya\Documents\PythonxyWS\HW1\AI1\src\run_files\results\2011-05-06_at_19-12_best_first_depth1.pck"
+    d =r"C:\Users\inesmeya\Documents\PythonxyWS\HW1\AI1\src\run_files\results\2011-05-06_at_19-36_best_first_depth0.pck"
     p.load(d)
     #folder = os.path.join(os.getcwd(),"run_files")
     #folder = os.path.join(folder,"uniqes")
     
     #p.appent_pattern(folder, ".*best.*")
-    r = p.solved_percent_ext()
-    
+    r = p.solved_percent_ext(True)
+    #print r
     print_list(r)
     
     
