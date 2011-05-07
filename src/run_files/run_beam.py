@@ -40,7 +40,7 @@ def beam_width(count,room_time_limit, seed):
     #beam parameters:
     
     init_width_domain = [5,15,25,35,45]
-    growf_domain =[ (1.5,'exp') ]
+    growf_domain =[ (1.3,'exp') ]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
     #------------------ Create Agents ------------------            

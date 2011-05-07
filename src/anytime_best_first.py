@@ -29,6 +29,8 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         the goal state.
         '''
         self.max_depth = max_depth
+        
+        #save initial values
         self.init_max_depth = max_depth
 
     def name(self):
@@ -48,7 +50,8 @@ class AnytimeBestFirstGraphSearch (SearchAlgorithm):
         
         returns (solution,[(time,sol_len)]) or (None,[]) if none found
         '''
-        #first restore max_depth parameter
+                
+        # restore initial values
         self.max_depth = self.init_max_depth
         
         # This is the node evaluation function for the given heuristic.

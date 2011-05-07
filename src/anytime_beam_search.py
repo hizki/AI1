@@ -30,12 +30,17 @@ class AnytimeBeamSearch (SearchAlgorithm):
         '''
         self.beam_width = beam_width
         self.width_factor = grow_func[0]
-        self.linear = (grow_func[1] == "lin") 
+        self.grow_func = grow_func 
+        self.linear = (grow_func[1] == "lin")
         self.max_depth = max_depth
-        self.grow_func = grow_func
-        #save max_depth
-        self.init_max_depth = max_depth
-      
+        
+        #save initial values
+        self.init_max_depth = self.max_depth
+        self.init_beam_width = self.beam_width
+        self.init_grow_func = self.grow_func
+        self.init_width_factor = self.max_width
+        self.init_linear = self.linear
+        
     def name(self):
         tmpl = "AnytimeBeam-w{0}-gf{1}"
         name = tmpl.format(self.beam_width,self.grow_func)
@@ -52,8 +57,13 @@ class AnytimeBeamSearch (SearchAlgorithm):
         
         returns (solution,[(time,sol_len)]) or (None,[]) if none found
         '''
-        #first restore max_depth parameter
+        
+        # restore initial values
         self.max_depth = self.init_max_depth
+        self.beam_width = self.init_beam_width
+        self.grow_func = self.init_grow_func
+        self.width_factor = self.init_width_factor
+        self.linear = self.init_linear
         
         # This is the node evaluation function for the given heuristic.
         def evaluator(node):
