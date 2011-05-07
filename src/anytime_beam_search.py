@@ -35,11 +35,11 @@ class AnytimeBeamSearch (SearchAlgorithm):
         self.max_depth = max_depth
         
         #save initial values
-        self.init_max_depth = max_depth
-        self.init_beam_width = beam_width
-        self.init_grow_func = grow_func
-        self.init_width_factor = grow_func[0]
-        self.init_linear = (grow_func[1] == "lin")
+        self.init_max_depth = self.max_depth
+        self.init_beam_width = self.beam_width
+        self.init_grow_func = self.grow_func
+        self.init_width_factor = self.max_width
+        self.init_linear = self.linear
         
     def name(self):
         tmpl = "AnytimeBeam-w{0}-gf{1}"
