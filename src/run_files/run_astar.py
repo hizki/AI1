@@ -75,16 +75,24 @@ def heavy_astar(count,room_time_limit, seed):
 
 def main():
     param = sys.argv[1]
-    cmain(param)
+    if len(sys.argv) == 3:
+        seed = sys.argv[2]
+    else:
+        seed = -1
+    cmain(param, seed)
 
-def cmain(param):
+def cmain(param, seed):
     mes_funs =[globals()[param]]
     rooms_per_set = 5
-    num_sets = 10
     room_limit = 300.0
 
-    for i in range(num_sets):
-        run_me.run_tests(mes_funs, rooms_per_set, room_limit, i)
-               
+    if seed == -1:
+        num_sets = 10   
+    
+        for i in range(num_sets):
+            run_me.run_tests(mes_funs, rooms_per_set, room_limit, i)
+    else:
+            run_me.run_tests(mes_funs, rooms_per_set, room_limit, seed)
+                   
 if __name__ == "__main__":
     main()
