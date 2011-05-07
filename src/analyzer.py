@@ -32,7 +32,11 @@ class PssAnalyzer():
             path = os.path.join(folder,fname)
             self.append(path)
             print "PSSA: apended: ", path
+    
+    
+    #def find_room_with_maximum_solutions(self):
         
+            
     
     #def load(self, path):
     #    self.dbs = utils.pload("beam.pck")
@@ -64,8 +68,9 @@ class PssAnalyzer():
         
         return result
     
-    def solved_percent_ext(self, include_static=False):
+    def solved_percent_ext(self, roomset=None, include_static=False):
         '''
+        rooset=None, => all roomstes
         if include_static: include static rooms 
         include all roomsetes
         -> [(agent_name, solved percent,tried, solved),...]'''
@@ -73,8 +78,8 @@ class PssAnalyzer():
         # calculate number of problems and number of solved problems per agent
         res = {}
         for db in self.dbs:
-            #if db.roomset.name.find("static") == -1:
-             #   continue
+            if db.roomset.name != roomset: 
+                continue
             old_solved, old_tried = res.get(db.name,(0,0))
             
             tried  = len(db.solutions)
@@ -90,8 +95,7 @@ class PssAnalyzer():
             #print (solved , tried )
             percent = 100.0 *  solved /  tried 
             result.append((agent_name,percent,tried,solved))
-            
-        
+               
         return result        
     def select(self,agent_pattern, roomset_pattern=None):
         ''' Selecs agents from db by string pattert
@@ -151,7 +155,25 @@ class PssAnalyzer():
         res = map(solutions_to_runtime, pss.solutions.items())
         return res
      
+    def get_unsolved_rooms(self, roomset=None):
+        '''
+        rooset=None, => all roomstes
+        if include_static: include static rooms 
+        include all roomsetes
+        -> [(agent_name, solved percent,tried, solved),...]'''
         
+        # calculate number of problems and number of solved problems per agent
+        unsolved_rooms=[]
+        for db in self.dbs:
+            if db.roomset.name != roomset: 
+                continue
+            unsolved_rooms += [(rid, db.roomset.rooms[rid]) for rid, (sl,_) in db.solutions.items() if sl != []]
+        return unsolved_rooms
+            
+     
+     def FridmanTest(self):
+         
+         
         
 def test_rooms_distr():
     p = PssAnalyzer()
@@ -245,19 +267,50 @@ def new_test():
 
 def new_test2():
     p = PssAnalyzer()
-    d =r"C:\Users\inesmeya\Documents\PythonxyWS\HW1\AI1\src\run_files\results\2011-05-06_at_19-36_best_first_depth0.pck"
-    p.load(d)
-    #folder = os.path.join(os.getcwd(),"run_files")
-    #folder = os.path.join(folder,"uniqes")
+    #d =r"C:\Users\inesmeya\Documents\PythonxyWS\HW1\AI1\src\run_files\results\2011-05-06_at_19-36_best_first_depth0.pck"
+    #p.load(d)
+    folder = os.path.join(os.getcwd(),"run_files")
+    folder = os.path.join(folder,"uniqes")
     
-    #p.appent_pattern(folder, ".*best.*")
-    r = p.solved_percent_ext(True)
-    #print r
-    print_list(r)
+    p.appent_pattern(folder, ".*beam.*")
     
+    #p = p.select(".*w20.*")
     
+    easy = p.solved_percent_ext(roomset="easy_roomset")
+    mild = p.solved_percent_ext(roomset="mild_roomset")
+    heavy = p.solved_percent_ext(roomset="heavy_roomset")
     
-new_test2()    
+    easy =  do_by_key(sorted, easy, 1)
+    mild = do_by_key(sorted, mild, 1)
+    heavy = do_by_key(sorted, heavy, 1)
+    
+    print "easy"
+    print_list(easy)
+    
+    print "mild"
+    print_list(mild)    
+    
+    print "heavy"
+    print_list(heavy)   
+
+
+def test_unsolved():
+    p = PssAnalyzer()
+    folder = os.path.join(os.getcwd(),"run_files")
+    folder = os.path.join(folder,"uniqes")
+    
+    p.appent_pattern(folder, ".*beam.*")
+    
+    #p = p.select("AnytimeBest-d250_with_PowerHeuristic2")
+    p = p.select("AnytimeBeam-w20-.*")
+    
+    print "unsolved_rooms"
+    unsolved_rooms = p.get_unsolved_rooms(roomset="heavy_roomset")
+    print_list(unsolved_rooms)  
+     
+
+test_unsolved()
+#new_test2()    
 #test_select()
 #test_rooms_distr()
 #t()

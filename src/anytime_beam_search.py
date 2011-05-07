@@ -38,7 +38,7 @@ class AnytimeBeamSearch (SearchAlgorithm):
         self.init_max_depth = self.max_depth
         self.init_beam_width = self.beam_width
         self.init_grow_func = self.grow_func
-        self.init_width_factor = self.max_width
+        self.init_width_factor = self.width_factor
         self.init_linear = self.linear
         
     def name(self):
