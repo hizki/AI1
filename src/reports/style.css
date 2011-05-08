@@ -1,0 +1,35 @@
+/* ------------------
+ styling for the tables 
+   ------------------   */
+table {
+	font: 14px/24px Verdana, Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 450px;
+	}
+
+th {
+	padding: 0 0.5em;
+	text-align: left;
+	}
+
+tr.yellow td {
+	border-top: 1px solid #DDD;
+	border-bottom: 1px solid #CCC;
+	background: #FFC;
+	}
+
+td {
+	border-bottom: 1px solid #CCC;
+	padding: 0 0.5em;
+	}
+
+td:first-child {
+	width: 190px;
+    border-left: 1px solid #CCC;
+	}
+
+td+td {
+	border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+	//text-align: center;
+	}
