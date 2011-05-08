@@ -170,10 +170,34 @@ class PssAnalyzer():
             unsolved_rooms += [(rid, db.roomset.rooms[rid]) for rid, (sl,_) in db.solutions.items() if sl != []]
         return unsolved_rooms
             
-     
-     def FridmanTest(self):
-         
-         
+    def FridmanTest(self):
+        '''use selcet to choose roomset
+        #make D:
+        D = {}
+        unsolved_rooms=[]
+        for db in self.dbs:
+            best_solist = res.get(db.name,[])
+            best_solist =  
+            
+            D[db.name]  unsolved_rooms += [(rid, db.roomset.rooms[rid]) for rid, (sl,_) in db.solutions.items() if sl != []]
+        return unsolved_rooms
+      '''
+      
+    def solution_imp(self):
+        '''use select to select roomset'''
+        improved_rooms=[]
+        for db in self.dbs:
+            #improved_rooms += [(rid, db.roomset.rooms[rid], ) for rid, (sl,_) in db.solutions.items() if len(sl) > 1 ]
+            improved_rooms += [(rid, db.name, sl) for rid, (sl,_) in db.solutions.items() if len(sl) > 1 ]
+        return improved_rooms
+    
+    def rooms_count(self):
+        nrooms =0
+        for db in self.dbs:
+            #improved_rooms += [(rid, db.roomset.rooms[rid], ) for rid, (sl,_) in db.solutions.items() if len(sl) > 1 ]
+            nrooms += len(db.solutions)
+            #improved_rooms += [(rid, db.name, sl) for rid, (sl,_) in db.solutions.items() if len(sl) > 1 ]
+        return nrooms                 
         
 def test_rooms_distr():
     p = PssAnalyzer()
@@ -272,7 +296,7 @@ def new_test2():
     folder = os.path.join(os.getcwd(),"run_files")
     folder = os.path.join(folder,"uniqes")
     
-    p.appent_pattern(folder, ".*beam.*")
+    p.appent_pattern(folder, ".*limit.*")
     
     #p = p.select(".*w20.*")
     
@@ -302,14 +326,33 @@ def test_unsolved():
     p.appent_pattern(folder, ".*beam.*")
     
     #p = p.select("AnytimeBest-d250_with_PowerHeuristic2")
-    p = p.select("AnytimeBeam-w20-.*")
+    #p = p.select("AnytimeBeam-w20-.*")
     
     print "unsolved_rooms"
     unsolved_rooms = p.get_unsolved_rooms(roomset="heavy_roomset")
     print_list(unsolved_rooms)  
      
 
-test_unsolved()
+def test_solution_improvment():
+    p = PssAnalyzer()
+    folder = os.path.join(os.getcwd(),"run_files")
+    folder = os.path.join(folder,"uniqes")
+    
+    p.appent_pattern(folder, ".*")
+    #p.appent_pattern(folder, ".*limit.*")
+    
+    #p = p.select("AnytimeBest-d250_with_PowerHeuristic2")
+    #p = p.select(".*", roomset_pattern="heavy_roomset")
+    
+    l = p.solution_imp()
+    print_list(l)
+    print len(l), "from", p.rooms_count()
+    
+        
+
+
+#test_solution_improvment()
+#test_unsolved()
 #new_test2()    
 #test_select()
 #test_rooms_distr()

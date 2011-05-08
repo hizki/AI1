@@ -5,6 +5,7 @@ Created on Apr 30, 2011
 @author: inesmeya
 """
 import pylab as P
+import os
     
 def plot_result(result,title=None, label=None, filename=None):
     ''' Plots graph for result
@@ -168,6 +169,7 @@ class HtmlFile():
     def add_img(self,filename):
         self.content.append(
         '<img width="600" src="{0}" alt="{0}" /> '.format(filename) )
+        
     
     def add_table(self,table,title,header=None):
         self.content.append( table_to_html(table,title,header=header) )
@@ -175,9 +177,23 @@ class HtmlFile():
     def add_header(self,h):
         self.content.append("<h2> %s </h2>\n" % h) 
     
-    def save(self,filename):
+    def save(self,filename_path):
         page = [self.header] + self.content + [self.footer]
-        with open(filename,'w+') as file: file.writelines(page)
-        self.content = []    
+        with open(filename_path,'w+') as file: file.writelines(page)
+        self.content = []
+
+    def save_wd(self,filename):
+        filename_path = os.path.join(self.wdir,filename)
+        self.save(filename_path)
+    
+    def set_working_dir(self,path):
+        self.wdir = path
+    
+    def plot_result(self,result,title=None, label=None, filename=None):
+        filename_path = os.path.join(self.wdir,filename)
+        plot_result(result, title, label, filename_path)
+        self.add_img(filename)
+           
+        
     
 html = HtmlFile()
