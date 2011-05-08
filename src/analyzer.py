@@ -214,6 +214,19 @@ class PssAnalyzer():
                 res[room_id] = new_best
         return res
     
+    def intersect_rooms(self):
+        '''
+        @return: { room id => best solution length}
+        '''
+        #db is agent + roomset
+        #  
+        res = set(self.dbs[0].roomset.rooms.keys())
+        for db in self.dbs:
+            res = res.intersection(db.roomset.rooms.keys())
+        print res
+        return res        
+    
+    
     def union_db_by_agent_roomset(self):
         '''
         @return: 
@@ -437,11 +450,15 @@ def opt_solution():
     folder = os.path.join(os.getcwd(),"run_files")
     folder = os.path.join(folder,"uniqes")
     
-    pp.appent_pattern(folder, ".*")
+    pp.appent_pattern(folder, ".*best.*")
+    pp.appent_pattern(folder, ".*astar.*")
+    
     pp = pp.union_db_by_agent_roomset()
     for rsn in rooomsets_names:
         p = pp.select(".*", rsn)
-        p.test_rooms(50)
+        r = p.intersect_rooms()
+        print len(r)
+        #p.test_rooms(50)
         continue
         d = p.build_optimal_solution_table()
         print "best solutions for", rsn, "roomset"
@@ -449,9 +466,35 @@ def opt_solution():
         print "numberof rooms with solution:", len(d)
 
 
+def test_rooms():
+    folder = os.path.join(os.getcwd(),"run_files")
+    folder = os.path.join(folder,"uniqes")
+    
+    p1 = PssAnalyzer()
+    p2 = PssAnalyzer()
+    
+    p1.appent_pattern(folder, ".*best.*")
+    p2.appent_pattern(folder, ".*astar.*")
+    
+    p1 = p1.select(".*Power.*", roomset_pattern=".*easy.*")
+    p2 = p2.select(".*Power.*", roomset_pattern=".*easy.*")
+    
+    p1 = p1.union_db_by_agent_roomset()
+    p2 = p2.union_db_by_agent_roomset()
+    
+    for db1, db2 in zip (p1.dbs, p2.dbs):
+        l1 = db1.roomset.rooms.keys()
+        l2 = db2.roomset.rooms.keys()
+        print len(l1), db1.name, db2.roomset.name
+        print len(l2),  db2.name, db2.roomset.name
+        print sorted(l1)
+        print sorted(l2) 
+        
+        
 
 def main():
-    opt_solution()
+    test_rooms()
+    #opt_solution()
     #astart_solved()
     #test_solution_improvment()
     #test_unsolved()
