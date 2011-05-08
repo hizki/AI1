@@ -3,6 +3,7 @@ import utils
 import re
 import os
 from traceback import print_list
+import sys
 
 class PssAnalyzer():
     
@@ -11,15 +12,13 @@ class PssAnalyzer():
     
     def load(self, path):
         self.dbs = utils.pload(path)
-    
-    def load_beam(self):
-        self.load("beam.pck")
-    
-    def load_bstf(self):
-        self.load("best_first.pck")
+        #self.test_rooms(50)
     
     def append(self, path):
-        self.dbs += utils.pload(path)
+        newanal = PssAnalyzer()
+        newanal.load(path)
+        #if r:
+        self.dbs += newanal.dbs
     
     def appent_pattern(self, folder, pattern):
         allfiles = os.listdir(folder)
@@ -109,7 +108,7 @@ class PssAnalyzer():
         if roomset_pattern != None:
             #filter by roomset name
             rpattern = re.compile( roomset_pattern )
-            tmp = filter(lambda db: rpattern.match(db.roomset.name) , self.dbs)
+            tmp = filter(lambda db: rpattern.match(db.roomset.name) , tmp)
         res.dbs = tmp
         #res = [ db for db in self.dbs if cpattern.match(db.name) ]
         return res
@@ -194,10 +193,63 @@ class PssAnalyzer():
     def rooms_count(self):
         nrooms =0
         for db in self.dbs:
-            #improved_rooms += [(rid, db.roomset.rooms[rid], ) for rid, (sl,_) in db.solutions.items() if len(sl) > 1 ]
             nrooms += len(db.solutions)
-            #improved_rooms += [(rid, db.name, sl) for rid, (sl,_) in db.solutions.items() if len(sl) > 1 ]
-        return nrooms                 
+        return nrooms
+    
+    def build_optimal_solution_table(self):
+        '''
+        @return: { room id => best solution length}
+        '''
+        #db is agent + roomset
+        #  
+        res = {}
+        for db in self.dbs:
+            for room_id, (solutions_list,_) in db.solutions.items():          
+                if solutions_list == []:
+                    continue
+                _,cur_solution_len = solutions_list[-1]
+            
+                old_best = res.get(room_id, sys.maxint)
+                new_best = min(old_best,cur_solution_len)
+                res[room_id] = new_best
+        return res
+    
+    def union_db_by_agent_roomset(self):
+        '''
+        @return: 
+        '''
+        # { (agent name, roomset_name) => db
+        res = {}
+        for db in self.dbs:
+            id = (db.name, db.roomset.name)
+            old_db = res.get(id,db)
+            old_db.roomset.rooms.update(db.roomset.rooms)
+            old_db.solutions.update(db.solutions)
+            res[id] = old_db
+        
+        result = PssAnalyzer()
+        result.dbs = res.values()
+        return result            
+        
+    
+    def test_rooms(self,expected_number_of_rooms):
+        '''
+        @return: { room id => best solution length}
+        '''
+        #db is agent + roomset
+        #  
+        #res = {}
+        for db in self.dbs:
+            if not len(db.roomset.rooms) == expected_number_of_rooms:
+                print "len(db.roomset.rooms)",len(db.roomset.rooms), db.name
+            if not len(db.solutions) == expected_number_of_rooms:
+                print "len(db.solutions)",len(db.solutions)
+                return False
+        print "Done check"
+                         
+
+
+
         
 def test_rooms_distr():
     p = PssAnalyzer()
@@ -210,11 +262,11 @@ def test_rooms_distr():
     for s in sr: print s    
         
 
-def do_by_key(func,table,key=0):
+def do_by_key(func,table,key=0, reverse=False):
     ''' table : [(x1,x2,...,xn),...] 
     @return apply func to table by zero-based index=key
     '''
-    return func(table, key=lambda tup: tup[key])
+    return func(table, key=lambda tup: tup[key], reverse=reverse)
     
 def test_select():
     p = PssAnalyzer()
@@ -290,15 +342,15 @@ def new_test():
     
 
 def new_test2():
-    p = PssAnalyzer()
+    pp = PssAnalyzer()
     #d =r"C:\Users\inesmeya\Documents\PythonxyWS\HW1\AI1\src\run_files\results\2011-05-06_at_19-36_best_first_depth0.pck"
     #p.load(d)
     folder = os.path.join(os.getcwd(),"run_files")
     folder = os.path.join(folder,"uniqes")
     
-    p.appent_pattern(folder, ".*limit.*")
+    pp.appent_pattern(folder, ".*beam.*")
     
-    #p = p.select(".*w20.*")
+    p = pp#.select(".*Power.*")
     
     easy = p.solved_percent_ext(roomset="easy_roomset")
     mild = p.solved_percent_ext(roomset="mild_roomset")
@@ -348,12 +400,65 @@ def test_solution_improvment():
     print_list(l)
     print len(l), "from", p.rooms_count()
     
-        
 
 
-#test_solution_improvment()
-#test_unsolved()
-#new_test2()    
-#test_select()
-#test_rooms_distr()
-#t()
+def astart_solved():
+    pp = PssAnalyzer()
+    folder = os.path.join(os.getcwd(),"run_files")
+    folder = os.path.join(folder,"uniqes")
+    
+    pp.appent_pattern(folder, ".*astar.*")
+    
+    p = pp#.select(".*Power.*")
+    
+    easy = p.solved_percent_ext(roomset="easy_roomset")
+    mild = p.solved_percent_ext(roomset="mild_roomset")
+    heavy = p.solved_percent_ext(roomset="heavy_roomset")
+    
+    easy =  do_by_key(sorted, easy, 1)
+    mild = do_by_key(sorted, mild, 1)
+    heavy = do_by_key(sorted, heavy, 1)
+    
+    print "easy"
+    print_list(easy)
+    
+    print "mild"
+    print_list(mild)    
+    
+    print "heavy"
+    print_list(heavy)   
+    
+
+
+rooomsets_names = ["easy_roomset", "mild_roomset", "heavy_roomset"]
+
+def opt_solution():
+    pp = PssAnalyzer()
+    folder = os.path.join(os.getcwd(),"run_files")
+    folder = os.path.join(folder,"uniqes")
+    
+    pp.appent_pattern(folder, ".*")
+    pp = pp.union_db_by_agent_roomset()
+    for rsn in rooomsets_names:
+        p = pp.select(".*", rsn)
+        p.test_rooms(50)
+        continue
+        d = p.build_optimal_solution_table()
+        print "best solutions for", rsn, "roomset"
+        print_list(d.items())
+        print "numberof rooms with solution:", len(d)
+
+
+
+def main():
+    opt_solution()
+    #astart_solved()
+    #test_solution_improvment()
+    #test_unsolved()
+    #new_test2()    
+    #test_select()
+    #test_rooms_distr()
+    #t()           
+
+if __name__ == '__main__':
+    main()

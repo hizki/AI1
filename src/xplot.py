@@ -7,7 +7,7 @@ Created on Apr 30, 2011
 import pylab as P
 import os
     
-def plot_result(result,title=None, label=None, filename=None):
+def plot_result(result,title=None, label=None, filename=None, show=False):
     ''' Plots graph for result
         shows graph if  filename is not present
         saves to file if filename is present
@@ -22,12 +22,13 @@ def plot_result(result,title=None, label=None, filename=None):
     
     #P.figtext(0, 0.8, 'foo')
     P.plot(x,y, label=label)
-    P.legend()
+    P.legend(loc='lower right')
+
     
     if filename is not None:
         P.savefig(filename)
     else:
-        P.show()
+        if show==True:P.show()
     
 
 
@@ -79,8 +80,11 @@ class TableTemplate():
         table_body = ' '.join(html_row_list)
         return table_body
     
-    def make_html_table(self,table,title,header=None):
-        table = zip(*table)
+    def make_html_table(self,table,title,header=None, vertical=False):
+        
+        if vertical:
+            table = zip(*table)
+            
         if header is not None: table = [header] + table
         
         header_row = table[0]
@@ -191,9 +195,16 @@ class HtmlFile():
     
     def plot_result(self,result,title=None, label=None, filename=None):
         filename_path = os.path.join(self.wdir,filename)
-        plot_result(result, title, label, filename_path)
+        plot_result(result, title, label)
         self.add_img(filename)
-           
+
+    def plot(self,result,title=None, label=None):
+        plot_result(result, title, label)
+            
+    def add_img_plot(self,filename):
+        filename_path = os.path.join(self.wdir,filename)
+        P.savefig(filename_path)
+        self.add_img(filename)       
         
     
 html = HtmlFile()
