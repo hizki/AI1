@@ -7,6 +7,8 @@ Created on May 4, 2011
 import run_me
 import heuristics
 from anytime_beam_search import AnytimeBeamSearch
+import sys
+sys.path.append("..")
 from measure_core import TestAgent, ameasure
 import c_roomsets
 import sys

@@ -8,7 +8,8 @@ from measure_core import RoomSet
 from room_problems import all_static_rooms
 from utils import pload, psave
 import os
-
+import sys
+sys.path.append("..")
 
 
 def create_roomsets():

@@ -6,10 +6,11 @@ Created on May 4, 2011
 """
 import run_me
 import heuristics
+import sys
+sys.path.append("..")
 from measure_core import TestAgent, ameasure
 import c_roomsets
 from anytime_best_first import AnytimeBestFirstGraphSearch
-import sys
 from search.utils import infinity
 
 def no_limit(count,room_time_limit, seed):
@@ -39,7 +40,7 @@ def best_first_depth(count,room_time_limit, seed):
     ''' @param count: number of rooms
     ''' 
     #best first parameters:
-    depths = [10,80,150,250,400]
+    depths = [10,80,150,250,400,1000]
     heuristic_s = [heuristics.PowerHeuristic2(),heuristics.LinearHeuristic()]
         
     #------------------ Create Agents ------------------            

@@ -1,6 +1,8 @@
 import run_me
 import heuristics
 from limited_time_astar import LimitedTimeAStar
+import sys
+sys.path.append("..")
 from measure_core import TestAgent, ameasure
 import c_roomsets
 import sys
