@@ -7,7 +7,7 @@ Created on Apr 30, 2011
 import pylab as P
 import os
     
-def plot_result(result,title=None, label=None, filename=None, show=False):
+def plot_result(result,title=None, label=None, filename=None, show=False, legend=False):
     ''' Plots graph for result
         shows graph if  filename is not present
         saves to file if filename is present
@@ -22,7 +22,8 @@ def plot_result(result,title=None, label=None, filename=None, show=False):
     
     #P.figtext(0, 0.8, 'foo')
     P.plot(x,y, label=label)
-    P.legend(loc='lower right')
+    if legend==True:
+        P.legend(loc='lower right')
 
     
     if filename is not None:

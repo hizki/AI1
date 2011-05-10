@@ -36,11 +36,13 @@ def get_report_dir():
 
 
 # = General =
-def solvedp_by_roomset(pssa,name_to_value,name, xname):
+def solvedp_by_roomset(pssa,name_to_value,name, xname, xdomain=None):
     ''' pssa : PssAnalyzer
         name_to_value : function converts agent name to numerical value
     '''
     pylab.axvline(ymin=0, ymax=100)
+    if xdomain != None:
+        pylab.axhline(xmin=xdomain[0],xmax=xdomain[1])
     for roomset_name in rooomsets_names:
         #filtered pssa
         filtered_pssa = pssa.select(".*", roomset_pattern=roomset_name)
@@ -51,13 +53,17 @@ def solvedp_by_roomset(pssa,name_to_value,name, xname):
         width_vs_solved = [(name_to_value(n), p) for n,p in list ]
         #print_list(width_vs_solved);exit()
         #table [(20,80%),(40,90%),...]
+        #xmin= min(zip(*width_vs_solved)[0])
+        
+        
         width_vs_solved_table = do_by_key(sorted, width_vs_solved, 1, reverse=True ) 
         #vectors [[20,40,...],[80%,90%]]
         width_vs_solved_vectors = zip(*sorted(width_vs_solved))
         x,y = width_vs_solved_vectors
         print width_vs_solved_vectors
         xplot.html.plot( ((xname, x),(' % solved', y)), title=name, label = roomset_name )
-        
+        for row in width_vs_solved:
+            pylab.axvline(row[0],0,row[1],linestyle='--',color='b' )
         xplot.html.add_table(width_vs_solved_table, name + " " + roomset_name, header=[name,"%solved"])
     # end
     fname = name + xname + ".png"
@@ -113,7 +119,7 @@ def wins_by_roomset(pssa,name_to_value,name, xname):
         
         mat = wins_table(filtered_pssa)  
         #print mat
-        mat[0] = [name_to_value(name) for name in mat[0] ]
+        mat[0] = [name_to_value(aname) for aname in mat[0] ]
         
         mat = lzip(mat)
         header = ["param",'10s','20s','30s','40s']
@@ -223,7 +229,7 @@ def beam_factor_reserch(used_heursistics_pattern,hname):
     def name_to_factor(name):
         return float(re.findall(r"\d*\.\d+",name)[0])
         
-    solvedp_by_roomset(pssa, name_to_factor, "beam_factor" + hname, "factor")
+    solvedp_by_roomset(pssa, name_to_factor, "beam_factor" + hname, "factor",xdomain=(1.3,2.0))
     wins_by_roomset(pssa, name_to_factor, "beam_factor" + hname, "factor")
 
 #------------------------------- Best firts ---------------------------------
