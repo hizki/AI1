@@ -478,11 +478,17 @@ def test_rooms():
         
 #def show_roomset():
     
-
+def print_all_agents():
+    p = PssAnalyzer()
+    folder = os.path.join(os.getcwd(),"run_files")
+    folder = os.path.join(folder,"uniqes")
+    p.appent_pattern(folder, ".*")
+    for db in p.dbs: print db.name
 
 def main():
+    print_all_agents()
     #test_rooms()
-    opt_solution()
+    #opt_solution()
     #astart_solved()
     #test_solution_improvment()
     #test_unsolved()

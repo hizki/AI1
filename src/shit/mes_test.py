@@ -11,6 +11,8 @@ from search import beam_search
 import heuristics
 import measure_agent
 import mes2
+import pylab
+from utils import psave
 
 class Test(unittest.TestCase):
 
@@ -119,6 +121,8 @@ class Test(unittest.TestCase):
         xplot.html.add_paragraph("Tons of text about this particular table")
         xplot.html.add_table(time_table, 'The Title of table', header=header)
         xplot.html.save(html_name)
+        print xplot.table_to_csv2()
+        
         
         #print d
         print t
@@ -155,6 +159,8 @@ def test_mesure_soleves2(rooms,width_domain):
     
     time_table = [range(len(results[0][0]))] + results[1]        
     t = xplot.table_to_csv2(time_table,header=header)
+    psave(t, r'C:\Users\inesmeya\Desktop\source\din\t.pck')
+    
     
     #y =  [ for coll in time_table[2:] ]
     y = [ reduce(lambda x,y: x + int(y != 0),coll,0) for coll in time_table[2:]]
@@ -169,6 +175,7 @@ def test_mesure_soleves2(rooms,width_domain):
     img_name = dir + '\\' + 'img.png'
     
     xplot.html.add_header("Picture Demo")
+    #pylab.axvspan(0, 400, 0, 100)
     xplot.plot_result((('width', x),('solved', y)), title='Picture title', label='label', filename=img_name)
     xplot.html.add_img(img_name)
 

@@ -119,9 +119,10 @@ def wins_by_roomset(pssa,name_to_value,name, xname):
         
         mat = wins_table(filtered_pssa)  
         #print mat
-        mat[0] = [name_to_value(aname) for aname in mat[0] ]
+        mat[0] = ["p=" + str(name_to_value(aname)) for aname in mat[0] ]
         
         mat = lzip(mat)
+        mat = sorted(mat)
         header = ["param",'10s','20s','30s','40s']
         xplot.html.add_header("Number of wins:")         
         xplot.html.add_table(mat, name + " " + roomset_name, header=header)
