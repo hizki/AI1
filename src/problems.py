@@ -19,6 +19,19 @@ class RoomID():
     
     def __repr__(self):
         return self.__str__()
+    
+    def __eq__(self, other):
+        return self.seed == other.seed
+    
+    def __ne__(self, other):
+        return not self.__eq__(other)
+    
+    def __hash__(self):
+        return self.seed      
+    
+    def __cmp__(self, other):
+        return cmp(str(self),str(other))
+       
 
 def roomFromString(str):
     '''

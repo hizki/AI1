@@ -1,4 +1,4 @@
-#Sun May 08 22:01:05 IDT 2011
+#Tue May 10 15:38:18 IDT 2011
 eclipse.preferences.version=1
 encoding//src/agent.py=utf-8
 encoding//src/analyzer.py=utf-8
@@ -13,6 +13,7 @@ encoding//src/run_files/run_best_first.py=utf-8
 encoding//src/run_files/run_by_hostname.py=utf-8
 encoding//src/run_files/run_check.py=utf-8
 encoding//src/run_files/run_me.py=utf-8
+encoding//src/run_files/test_rs.py=utf-8
 encoding//src/shit/example_their.py=utf-8
 encoding//src/shit/measurments.py=utf-8
 encoding//src/shit/mes.py=utf-8

@@ -450,19 +450,15 @@ def opt_solution():
     folder = os.path.join(os.getcwd(),"run_files")
     folder = os.path.join(folder,"uniqes")
     
-    pp.appent_pattern(folder, ".*best.*")
-    pp.appent_pattern(folder, ".*astar.*")
+    pp.appent_pattern(folder, ".*")
+    #pp.appent_pattern(folder, ".*best.*")
     
     pp = pp.union_db_by_agent_roomset()
     for rsn in rooomsets_names:
         p = pp.select(".*", rsn)
-        r = p.intersect_rooms()
-        print len(r)
-        #p.test_rooms(50)
-        continue
         d = p.build_optimal_solution_table()
-        print "best solutions for", rsn, "roomset"
-        print_list(d.items())
+        print "best solutions for", rsn
+        #print_list(d.items())
         print "numberof rooms with solution:", len(d)
 
 
@@ -474,10 +470,10 @@ def test_rooms():
     p2 = PssAnalyzer()
     
     p1.appent_pattern(folder, ".*best.*")
-    p2.appent_pattern(folder, ".*astar.*")
+    p2.appent_pattern(folder, ".*beam.*")
     
-    p1 = p1.select(".*Power.*", roomset_pattern=".*easy.*")
-    p2 = p2.select(".*Power.*", roomset_pattern=".*easy.*")
+    p1 = p1.select(".*Power.*", roomset_pattern=".*mild.*")
+    p2 = p2.select(".*Power.*", roomset_pattern=".*mild.*")
     
     p1 = p1.union_db_by_agent_roomset()
     p2 = p2.union_db_by_agent_roomset()
@@ -491,10 +487,13 @@ def test_rooms():
         print sorted(l2) 
         
         
+#def show_roomset():
+    
+
 
 def main():
-    test_rooms()
-    #opt_solution()
+    #test_rooms()
+    opt_solution()
     #astart_solved()
     #test_solution_improvment()
     #test_unsolved()
