@@ -9,6 +9,7 @@ import sys
 import problems
 from random import Random
 from check_room import is_room_solvable
+from search.utils import infinity
 
 
 class ProblemSetSolution():
@@ -17,7 +18,10 @@ class ProblemSetSolution():
         self.name = agent.name
         self.solutions = {}
         self.roomset = roomset
-        
+    
+    def full_name(self):
+        return self.name + "_" + self.roomset.name
+            
     def add_room_solution(self,room_id,solution_e):
         '''
         solution_e = (solist,runtime)
@@ -30,7 +34,42 @@ class ProblemSetSolution():
             "Solutions:{sols}"
         s = t.format(agent=self.name, rooms=self.roomset.rooms, sols=self.solutions )
         return s
-      
+   
+    def room_id_with_solen_table(self):
+        '''  pss as ProblemSetSolution
+        @return:  { room_id => solution length,...}
+        
+        solution length == -1 if no solution present
+        room_solultions = (room_id, [(runtime, solution len)])
+        '''
+        def solutions_to_solen(room_solultions):
+            room_id, (solist,_ ) = room_solultions
+            if solist == []: 
+                solen = -1
+            else:
+                _,solen = solist[-1]
+            return (room_id, solen)
+            
+        res = dict(map(solutions_to_solen, self.solutions.items()))
+        return res
+    
+    def room_id_with_solen_table_until_time(self, time):
+        '''
+        ! no solution => infinity
+        '''
+        def solutions_to_solen(room_solultions):
+            room_id, (solist,_ ) = room_solultions
+            res_solen = infinity
+            for sol_time ,solen in  solist:
+                if sol_time <= time:
+                    res_solen = solen  
+            return (room_id, res_solen)
+            
+        res = dict(map(solutions_to_solen, self.solutions.items()))
+        return res        
+    
+    
+       
 
 class RoomSet():
     

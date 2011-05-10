@@ -204,7 +204,10 @@ class HtmlFile():
     def add_img_plot(self,filename):
         filename_path = os.path.join(self.wdir,filename)
         P.savefig(filename_path)
-        self.add_img(filename)       
+        self.add_img(filename)
+    
+    def make_path(self, filename):
+        return os.path.join(self.wdir,filename)       
         
     
 html = HtmlFile()

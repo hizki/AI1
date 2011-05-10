@@ -33,17 +33,6 @@ class PssAnalyzer():
             print "PSSA: apended: ", path
     
     
-    #def find_room_with_maximum_solutions(self):
-        
-            
-    
-    #def load(self, path):
-    #    self.dbs = utils.pload("beam.pck")
-    
-    def test_normal(self):
-        pass    
-    
-    
     def solved_percent(self):
         '''
         include all roomsetes
@@ -138,7 +127,7 @@ class PssAnalyzer():
                 _,solen = solist[-1]
             return (room_id, solen)
             
-        res = map(solutions_to_solen, pss.solutions.items())
+        res = dict(map(solutions_to_solen, pss.solutions.items()))
         return res
         
     def room_id_with_runtime_table(self, pss):
