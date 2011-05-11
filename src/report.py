@@ -153,7 +153,7 @@ def main_report(used_heursistics_pattern,hname):
     beam_width_reserch(used_heursistics_pattern,hname)
     beam_linear_reserch(used_heursistics_pattern,hname)
     beam_factor_reserch(used_heursistics_pattern,hname)
-    ##beam_linear_vs_factor()
+    beam_linear_vs_factor(used_heursistics_pattern,hname)
    
     best_first_max_width_research(used_heursistics_pattern,hname)
     
@@ -247,6 +247,25 @@ def best_first_max_width_research(used_heursistics_pattern,hname):
         
     solvedp_by_roomset(pssa, name_to_depth, "best first" +hname, "max width")
     wins_by_roomset(pssa, name_to_depth, "best first" + hname, "max width")
+
+#------------------------------- Best firts ---------------------------------
+def beam_linear_vs_factor(used_heursistics_pattern,hname):
+    pssa = analyzer.PssAnalyzer()
+    pssa.appent_pattern(get_pickle_folder(), ".*beam.*")
+    pssa = pssa.select(used_heursistics_pattern)
+    pssa = pssa.select_two(".*6[^l]*lin.*",".*7[^l]*exp.*")
+    
+    xplot.html.add_header("Beam Linear 16 vs Exponential 1.7")
+    # xplot.html.add_paragraph('''
+    #    Evaluating beam initial width, when init width =20''')
+   
+    def name_to_depth(name):
+        if re.match(".*6[^l]*lin.*",name):
+            return 'Linear 16'
+        return 'Exp 17'
+        
+    #solvedp_by_roomset(pssa, name_to_depth, "ble" +hname, "max width")
+    wins_by_roomset(pssa, name_to_depth, "ble" + hname, "ddd")
 
 
 #=================================== General ==========================    

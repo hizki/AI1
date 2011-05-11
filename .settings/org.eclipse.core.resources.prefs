@@ -1,10 +1,11 @@
-#Tue May 10 22:33:05 IDT 2011
+#Wed May 11 05:05:47 IDT 2011
 eclipse.preferences.version=1
 encoding//src/agent.py=utf-8
 encoding//src/analyzer.py=utf-8
 encoding//src/c_roomsets.py=utf-8
 encoding//src/check_room.py=utf-8
 encoding//src/data_distribution.py=utf-8
+encoding//src/h_speed_test.py=utf-8
 encoding//src/measure_core.py=utf-8
 encoding//src/report.py=utf-8
 encoding//src/report2.py=utf-8

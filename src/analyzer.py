@@ -101,6 +101,20 @@ class PssAnalyzer():
         res.dbs = tmp
         #res = [ db for db in self.dbs if cpattern.match(db.name) ]
         return res
+    
+    def select_two(self,agent_pattern1, agent_pattern2):
+        ''' Selecs agents from db by string pattert
+        @param pattern: string regex. Example: ".*Power.*"
+        @return: PssAnalyzer with selected agents        
+        '''        
+        res = PssAnalyzer()        
+        apattern1 = re.compile( agent_pattern1)
+        apattern2 = re.compile( agent_pattern2)
+        #filter by agent name
+        tmp = filter(lambda db: apattern1.match(db.name) or apattern2.match(db.name), self.dbs)
+        res.dbs = tmp
+        #res = [ db for db in self.dbs if cpattern.match(db.name) ]
+        return res
         
     def select_first(self,agent_pattern, roomset_pattern=None):
         '''@return Pss'''

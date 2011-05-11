@@ -21,6 +21,9 @@ class ProblemSetSolution():
     
     def full_name(self):
         return self.name + "_" + self.roomset.name
+    
+    def h_name(self):
+        return self.name.split("_with_")[1]
             
     def add_room_solution(self,room_id,solution_e):
         '''
@@ -53,13 +56,13 @@ class ProblemSetSolution():
         res = dict(map(solutions_to_solen, self.solutions.items()))
         return res
     
-    def room_id_with_solen_table_until_time(self, time):
+    def room_id_with_solen_table_until_time(self, time, noSol=infinity):
         '''
         ! no solution => infinity
         '''
         def solutions_to_solen(room_solultions):
             room_id, (solist,_ ) = room_solultions
-            res_solen = infinity
+            res_solen = noSol
             for sol_time ,solen in  solist:
                 if sol_time <= time:
                     res_solen = solen  

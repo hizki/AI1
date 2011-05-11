@@ -120,4 +120,21 @@ def static_rooms():
     return rs
     
 
-
+def h_test_roomset(count, seed):
+    init_seed = seed
+    name = "h_test_roomset"
+    
+    width_t=(40,50)
+    height_t=(40,50)
+    robots_t=(20,40)
+    dirt_piles_t=(20,40)
+    simple_obs_t=(10,20)
+    complex_obs_t=(2,4)
+    complex_obs_size_t=(3,6)
+  
+    rs = RoomSet(name)
+    rs.create_rooms(init_seed, count, width_t, height_t, robots_t, dirt_piles_t, simple_obs_t, complex_obs_t, complex_obs_size_t)    
+    
+    #save_roomset(name, count, seed,rs)
+    
+    return rs
